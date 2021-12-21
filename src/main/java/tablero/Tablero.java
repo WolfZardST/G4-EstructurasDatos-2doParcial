@@ -27,11 +27,130 @@ public class Tablero {
             
             for(int j = 0; i < 3; i++){
                 
-                matriz_clone[i][j].setRelleno(matriz_casillas[i][j].getRelleno());
+                matriz_clone[i][j].marcar(matriz_casillas[i][j].getRelleno());
             }
         }
         
         return clone;
+    }
+    
+    public Casilla getCasilla(Posicion posicion){
+        
+        return matriz_casillas[posicion.getFila()][posicion.getColumna()];
+    }
+    
+    public void imprimir(){
+        
+        for(int fila = 0; fila < 3; fila++){
+            System.out.print("\n");
+            
+            for(int columna = 0; columna < 3; columna++){
+                Relleno relleno = matriz_casillas[fila][columna].getRelleno();
+                String s_relleno = (relleno != Relleno.EMPTY)? relleno.name(): " ";
+                System.out.printf("[%s]",s_relleno);
+            }
+        }
+        System.out.println("\n");
+    }
+    
+    public int calcularUtilidad(Relleno relleno) {
+        
+        switch(relleno) {
+            
+            case O: return this.calcularDisponibilidad(relleno) - this.calcularDisponibilidad(Relleno.X);
+            
+            case X: return this.calcularDisponibilidad(relleno) - this.calcularDisponibilidad(Relleno.O);
+            
+            default: return 0;
+        }
+    }
+    
+    private int calcularDisponibilidad(Relleno relleno) {
+        
+        int d_H = calcularDisponibilidadHorizontal(relleno);
+        int d_V = calcularDisponibilidadVertical(relleno);
+        int d_D = calcularDisponibilidadDiagonal(relleno);
+        
+        return d_H + d_V + d_D;
+    }
+    
+    private int calcularDisponibilidadHorizontal(Relleno relleno) {
+        
+        int disponibilidad = 0;
+        
+        Casilla[][] casillas = this.getMatrizCasillas();
+        
+        for(int fila = 0; fila < 3; fila ++) {
+                     
+            for(int columna = 0; columna < 3; columna ++) {
+                
+                Casilla casilla = casillas[fila][columna];
+                
+                if(casilla.getRelleno() != relleno && casilla.getRelleno() != Relleno.EMPTY){
+                    break;
+                }
+                
+                if(columna == 2) disponibilidad ++;
+            }
+            
+        }
+        
+        return disponibilidad;
+    }
+    
+    private int calcularDisponibilidadVertical(Relleno relleno) {
+        
+        int disponibilidad = 0;
+        
+        Casilla[][] casillas = this.getMatrizCasillas();
+        
+        for(int columna = 0; columna < 3; columna ++) {
+                     
+            for(int fila=  0; fila < 3; fila ++) {
+                
+                Casilla casilla = casillas[fila][columna];
+                
+                if(casilla.getRelleno() != relleno && casilla.getRelleno() != Relleno.EMPTY){
+                    break;
+                }
+                
+                if(fila == 2) disponibilidad ++;
+            }
+            
+        }
+        
+        return disponibilidad;
+    }
+    
+    private int calcularDisponibilidadDiagonal(Relleno relleno) {
+        
+        int disponibilidad = 0;
+        
+        Casilla[][] casillas = this.getMatrizCasillas();
+        
+        for(int fila = 0, columna = 0; fila < 3; fila ++, columna++) {
+            
+            Casilla casilla = casillas[fila][columna];
+                
+            if(casilla.getRelleno() != relleno && casilla.getRelleno() != Relleno.EMPTY){
+                break;
+            }
+            
+            if(fila == 2) disponibilidad ++;
+        }
+        
+        for(int fila = 2, columna = 0; fila >= 0; fila --, columna++) {
+            
+            Casilla casilla = casillas[fila][columna];
+                
+            if(casilla.getRelleno() != relleno && casilla.getRelleno() != Relleno.EMPTY){
+                break;
+            }
+            
+            if(fila == 0) disponibilidad ++;
+        }
+        
+        return disponibilidad;
     }
     
 }
