@@ -9,6 +9,6 @@ public class Ordenador extends Jugador {
         super(relleno);
     }
     
-    
+    // HACER IA (mini-max) DONA
     
 }

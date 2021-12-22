@@ -7,7 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
-public class MenuController implements Initializable {
+public class MenuController implements Initializable { // GIAN
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {

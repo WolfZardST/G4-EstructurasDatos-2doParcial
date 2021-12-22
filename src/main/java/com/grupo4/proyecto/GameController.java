@@ -8,7 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
-public class GameController implements Initializable {
+public class GameController implements Initializable { //PABLOSKI
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
