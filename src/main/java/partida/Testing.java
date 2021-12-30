@@ -11,6 +11,8 @@ public abstract class Testing {
     public static void main(String[] args) {
         
         Partida partida = new Partida();
+        Partida.VICTORIAS_PARA_GANAR = 1;
+        
         Tablero tablero = partida.getTablero();
         
         Jugador jugadorUno = new Humano(Relleno.X);
@@ -22,6 +24,8 @@ public abstract class Testing {
         jugadorUno.marcarCasilla(tablero, new Posicion(0,0));
         jugadorDos.marcarCasilla(tablero, new Posicion(1,0));
         
+        Partida.JUGADOR_ACTUAL = jugadorUno;
+        
         tablero.imprimir();
         System.out.println("Utilidad X: "+tablero.calcularUtilidad(Relleno.X));
         System.out.println("Utilidad O: "+tablero.calcularUtilidad(Relleno.O));
@@ -31,7 +35,7 @@ public abstract class Testing {
         jugadorUno.marcarCasilla(tablero, new Posicion(2,2));
         
         tablero.imprimir();
-        partida.buscarTresEnRaya(Relleno.X);
+        partida.buscarTresEnRaya(jugadorUno);
         
         System.out.println(partida.getEstado().name());
         

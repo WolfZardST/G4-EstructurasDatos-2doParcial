@@ -7,19 +7,25 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import javafx.scene.image.Image;
 
 /**
  * JavaFX App
  */
 public class App extends Application {
 
-    private static Scene scene;
+    public static Scene scene;
 
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("menu"));
         stage.setScene(scene);
+        
         stage.setResizable(false);
+        stage.setTitle("Tres en Raya - GRUPO 4");
+        
+        stage.getIcons().add(new Image(App.class.getResourceAsStream("images/icon.png")));
+        
         stage.show();
     }
 

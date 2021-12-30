@@ -1,0 +1,17 @@
+#saveButton {
+    -fx-graphic: url('images/game/save.png');
+}
+
+#menuButton {
+    -fx-graphic: url('images/game/menu.png');
+}
+
+#treeButton {
+    -fx-graphic: url('images/game/tree.png');
+}
+
+#borderPane {
+    -fx-border-color: black;
+    -fx-border-style: solid;
+    -fx-border-width: 3px;
+}

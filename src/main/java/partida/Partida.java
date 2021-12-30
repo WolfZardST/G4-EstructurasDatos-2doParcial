@@ -1,8 +1,11 @@
 
 package partida;
 
+import java.util.ArrayDeque;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+
 import jugadores.*;
 import tablero.*;
 
@@ -13,11 +16,17 @@ public class Partida {
     private Jugador jugadorDos;
     private Estado estado;
     
-    public Partida PARTIDA;
+    public static Partida PARTIDA;
+    public static int VICTORIAS_PARA_GANAR = 1;
+    public static int SEGUNDOS_POR_TURNO = 0;
+    public static Jugador JUGADOR_ACTUAL;
+    public static Queue<Tablero> TABLEROS;
     
     public Partida() {
-        tablero = new Tablero();
-        estado = Estado.EMPATE;
+        this.tablero = new Tablero();
+        this.estado = Estado.EMPATE;
+        PARTIDA = this;
+        TABLEROS = new ArrayDeque();
     }
 
     public Tablero getTablero() {
@@ -52,7 +61,9 @@ public class Partida {
         this.estado = estado;
     }
     
-    public void buscarTresEnRaya(Relleno relleno) {
+    public void buscarTresEnRaya(Jugador jugador) {
+        
+        Relleno relleno = jugador.getRelleno();
         
         List<Casilla> victoriosas = new LinkedList<>();
         
@@ -67,8 +78,14 @@ public class Partida {
         if(!victoriosas.isEmpty()){
             victoriosas.forEach(casilla -> casilla.marcarComoVictoriosa());
             
-            if(relleno == Relleno.O) estado = Estado.GANA_O;
-            else estado = Estado.GANA_X;
+            jugador.sumarVictoria();
+            
+            switch(relleno) {
+                case O: setEstado(Estado.GANA_O);
+                break;
+                case X: setEstado(Estado.GANA_X);
+            }
+            
         }
     }
     

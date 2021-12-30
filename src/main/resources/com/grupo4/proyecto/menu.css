@@ -1,0 +1,8 @@
+
+#backgroundPane {
+    -fx-background-image:url('images/menu/BG.gif');
+}
+
+#buttonPane {
+    -fx-background-color: black;
+}

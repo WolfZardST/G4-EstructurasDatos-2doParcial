@@ -3,7 +3,7 @@ package tablero;
 
 public class Tablero {
     
-    private final Casilla[][] matriz_casillas;
+    private Casilla[][] matriz_casillas;
     
     public Tablero() {
         
@@ -17,7 +17,7 @@ public class Tablero {
     public Casilla[][] getMatrizCasillas() {
         return matriz_casillas;
     }
-    
+
     public Tablero getClone() {
         
         Tablero clone = new Tablero();
@@ -41,16 +41,27 @@ public class Tablero {
     
     public void imprimir(){
         
+        System.out.printf("%s%n", this.toString());
+    }
+    
+    @Override
+    public String toString() {
+        
+        StringBuilder sb = new StringBuilder();
+        
         for(int fila = 0; fila < 3; fila++){
-            System.out.print("\n");
             
             for(int columna = 0; columna < 3; columna++){
                 Relleno relleno = matriz_casillas[fila][columna].getRelleno();
-                String s_relleno = (relleno != Relleno.EMPTY)? relleno.name(): " ";
-                System.out.printf("[%s]",s_relleno);
+                String rellenoString = (relleno != Relleno.EMPTY)? relleno.name(): " ";
+                
+                sb.append(String.format("[%s]",rellenoString));
             }
+            
+            sb.append("\n");
         }
-        System.out.println("\n");
+        
+        return sb.toString();
     }
     
     public int calcularUtilidad(Relleno relleno) {
