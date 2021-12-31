@@ -39,7 +39,7 @@ public interface CargadorPartida {
             while((tablero = obtenerTablero(reader)) != null) {
                 
                 Partida.PARTIDA.setTablero(tablero);
-                Partida.TABLEROS.offer(tablero.getClone());
+                Partida.TABLEROS.add(tablero.getClone());
             }
             
             Partida.PARTIDA = partida;

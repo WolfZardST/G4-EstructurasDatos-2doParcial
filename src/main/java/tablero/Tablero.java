@@ -3,7 +3,7 @@ package tablero;
 
 public class Tablero {
     
-    private Casilla[][] matriz_casillas;
+    private final Casilla[][] matrizCasillas;
     
     public Tablero() {
         
@@ -11,23 +11,25 @@ public class Tablero {
                                 { new Casilla(), new Casilla(), new Casilla() },
                                 { new Casilla(), new Casilla(), new Casilla() } };
         
-        matriz_casillas = matriz;
+        matrizCasillas = matriz;
     }
    
     public Casilla[][] getMatrizCasillas() {
-        return matriz_casillas;
+        return matrizCasillas;
     }
 
     public Tablero getClone() {
         
         Tablero clone = new Tablero();
-        Casilla[][] matriz_clone = clone.getMatrizCasillas();
         
-        for(int i = 0; i < 3; i++){
+        for(int fila = 0; fila < 3; fila++){
             
-            for(int j = 0; i < 3; i++){
+            for(int columna = 0; columna < 3; columna ++){
                 
-                matriz_clone[i][j].marcar(matriz_casillas[i][j].getRelleno());
+                Posicion posicionActual = new Posicion(fila, columna);
+                Relleno relleno = this.getCasilla(posicionActual).getRelleno();
+                
+                clone.getCasilla(posicionActual).marcar(relleno);
             }
         }
         
@@ -36,7 +38,7 @@ public class Tablero {
     
     public Casilla getCasilla(Posicion posicion){
         
-        return matriz_casillas[posicion.getFila()][posicion.getColumna()];
+        return matrizCasillas[posicion.getFila()][posicion.getColumna()];
     }
     
     public void imprimir(){
@@ -52,7 +54,10 @@ public class Tablero {
         for(int fila = 0; fila < 3; fila++){
             
             for(int columna = 0; columna < 3; columna++){
-                Relleno relleno = matriz_casillas[fila][columna].getRelleno();
+                
+                Posicion posicionActual = new Posicion(fila, columna);
+                
+                Relleno relleno = this.getCasilla(posicionActual).getRelleno();
                 String rellenoString = (relleno != Relleno.EMPTY)? relleno.name(): " ";
                 
                 sb.append(String.format("[%s]",rellenoString));
@@ -62,6 +67,24 @@ public class Tablero {
         }
         
         return sb.toString();
+    }
+    
+    public boolean isEqualsTo(Tablero tablero) {
+        
+        for(int fila = 0; fila < 3; fila++){
+            
+            for(int columna = 0; columna < 3; columna++){
+                
+                Posicion posicionActual = new Posicion(fila, columna);
+                
+                Casilla casilla = this.getCasilla(posicionActual);
+                Casilla casillaTablero = tablero.getCasilla(posicionActual);
+                
+                if(casilla.getRelleno() != casillaTablero.getRelleno()) return false;
+            }
+        }
+        
+        return true;
     }
     
     public int calcularUtilidad(Relleno relleno) {

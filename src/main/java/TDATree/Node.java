@@ -15,6 +15,10 @@ public class Node<E> {
         this.content = content;
         this.children = children;
     }
+    
+    public Node(E content) {
+        this( content, new LinkedList() );
+    }
 
     public E getContent() {
         return content;

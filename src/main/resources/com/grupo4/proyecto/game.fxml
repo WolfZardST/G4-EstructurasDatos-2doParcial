@@ -41,9 +41,10 @@
                </font>
             </Button>
             <Button id="treeButton" layoutX="257.0" layoutY="38.0" mnemonicParsing="false" onAction="#showTree" prefHeight="74.0" prefWidth="80.0" />
+            <Button id="muteButton" fx:id="muteUnmuteButton" layoutX="354.0" layoutY="39.0" mnemonicParsing="false" onAction="#muteUnmuteMusic" />
          </children>
       </Pane>
-      <Pane id="borderPane" layoutX="125.0" layoutY="150.0" prefHeight="550.0" prefWidth="550.0" />
+      <Pane id="borderPane" fx:id="boardPane" layoutX="125.0" layoutY="150.0" prefHeight="550.0" prefWidth="550.0" />
       <VBox fx:id="VBoxP2" layoutX="675.0" layoutY="150.0">
          <children>
             <Label alignment="CENTER" prefHeight="100.0" prefWidth="125.0" text="J2" textFill="#ff2b18">
@@ -63,5 +64,6 @@
             </Label>
          </children>
       </VBox>
+      <Pane id="borderPane" fx:id="treePane" layoutX="125.0" layoutY="150.0" prefHeight="550.0" prefWidth="550.0" visible="false" />
    </children>
 </Pane>

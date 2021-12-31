@@ -15,6 +15,7 @@ import tablero.Relleno;
 import jugadores.*;
 import archivos.*;
 import java.io.File;
+import sonidos.Sonidos;
 
 public class MenuController implements Initializable { 
 
@@ -73,6 +74,8 @@ public class MenuController implements Initializable {
     @FXML
     private void winsButton(MouseEvent event) {
         
+        Sonidos.playTrophySound();
+        
         int wins = Integer.valueOf(winsLabel.getText());
         wins = (wins < 3) ? wins + 1 : 1;
         
@@ -91,42 +94,56 @@ public class MenuController implements Initializable {
 
     @FXML
     private void firstTurnP1(MouseEvent event) {
+        Sonidos.playLightSound();
+        
         firstTurnPaneP1.setOpacity(0.0);
         firstTurnPaneP2.setOpacity(0.85);
     }
 
     @FXML
     private void firstTurnP2(MouseEvent event) {
+        Sonidos.playLightSound();
+        
         firstTurnPaneP2.setOpacity(0.0);
         firstTurnPaneP1.setOpacity(0.85);
     }
 
     @FXML
     private void IAP1(MouseEvent event) {
+        Sonidos.playIASound();
+        
         IAPaneP1.setOpacity(0.0);
         humanPaneP1.setOpacity(0.85);
     }
 
     @FXML
     private void humanP1(MouseEvent event) {
+        Sonidos.playHumanSound();
+        
         IAPaneP1.setOpacity(0.85);
         humanPaneP1.setOpacity(0.0);
     }
 
     @FXML
     private void humanP2(MouseEvent event) {
+        Sonidos.playHumanSound();
+        
         IAPaneP2.setOpacity(0.85);
         humanPaneP2.setOpacity(0.0);
     }
 
     @FXML
     private void IAP2(MouseEvent event) {
+        Sonidos.playIASound();
+        
         IAPaneP2.setOpacity(0.0);
         humanPaneP2.setOpacity(0.85);
     }
 
     @FXML
     private void changeFill(MouseEvent event) {
+        Sonidos.playSlideSound();
+        
         if(fillPaneP1.getStyle().contains("O.png")) {
             
             fillPaneP1.setStyle(String.format("-fx-background-image:url('%s');", App.class.getResource("images/menu/X.png")));
@@ -176,6 +193,7 @@ public class MenuController implements Initializable {
 
     @FXML
     private void changeTimer(MouseEvent event) {
+        Sonidos.playClockSound();
         
         switch(timerLabel.getText()) {
             

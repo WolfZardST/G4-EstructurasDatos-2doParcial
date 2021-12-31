@@ -10,6 +10,10 @@
     -fx-graphic: url('images/game/tree.png');
 }
 
+#muteButton {
+    -fx-graphic: url('images/game/sound.png');
+}
+
 #borderPane {
     -fx-border-color: black;
     -fx-border-style: solid;

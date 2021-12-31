@@ -1,10 +1,8 @@
 
 package partida;
 
-import java.util.ArrayDeque;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 import jugadores.*;
 import tablero.*;
@@ -20,13 +18,13 @@ public class Partida {
     public static int VICTORIAS_PARA_GANAR = 1;
     public static int SEGUNDOS_POR_TURNO = 0;
     public static Jugador JUGADOR_ACTUAL;
-    public static Queue<Tablero> TABLEROS;
+    public static List<Tablero> TABLEROS;
     
     public Partida() {
         this.tablero = new Tablero();
         this.estado = Estado.EMPATE;
         PARTIDA = this;
-        TABLEROS = new ArrayDeque();
+        TABLEROS = new LinkedList();
     }
 
     public Tablero getTablero() {

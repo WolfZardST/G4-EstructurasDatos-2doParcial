@@ -14,9 +14,12 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import javafx.scene.Parent;
 
 import archivos.*;
+import javafx.scene.control.Button;
 import partida.Partida;
+import sonidos.Sonidos;
 
 public class GameController implements Initializable { 
 
@@ -37,6 +40,12 @@ public class GameController implements Initializable {
     
     private final String BGStyleP1 = "-fx-background-color: linear-gradient(from 100% 50% to 0% 50%, #86BCF5, white);";
     private final String BGStyleP2 = "-fx-background-color: linear-gradient(from 0% 50% to 100% 50%, #FF4F40, white);";
+    @FXML
+    private Pane boardPane;
+    @FXML
+    private Pane treePane;
+    @FXML
+    private Button muteUnmuteButton;
     
     //PABLOSKI
 
@@ -171,13 +180,45 @@ public class GameController implements Initializable {
     @FXML
     private void saveGame(ActionEvent event) {
         
+        if(timer != null) timer.pause();
+        
         File archivoPartida = SelectorArchivos.guardarArchivoPartida();
         if(archivoPartida != null) GuardadorPartida.guardarPartida(archivoPartida);
+        
+        if(timer != null) timer.play();
     }
 
     @FXML
-    private void showTree(ActionEvent event) {
-        //TODO
+    private void showTree(ActionEvent event) throws IOException {
+        
+        if(treePane.isVisible()) {
+            
+            treePane.setVisible(false);
+            if(timer != null) timer.play();
+            
+        } else {
+            
+            if(timer != null) timer.pause();
+            treePane.setVisible(true);
+            
+            Parent tree = App.loadFXML("tree");
+            treePane.getChildren().add(tree);
+        }
+    }
+
+    @FXML
+    private void muteUnmuteMusic(ActionEvent event) {
+        
+        if(!muteUnmuteButton.getStyle().contains("mute.png")) {
+            
+            muteUnmuteButton.setStyle(String.format("-fx-graphic: url('%s');", App.class.getResource("images/game/mute.png")));
+            Sonidos.pauseBackgroundMusic();
+            
+        } else {
+            
+            muteUnmuteButton.setStyle(String.format("-fx-graphic: url('%s');", App.class.getResource("images/game/sound.png")));
+            Sonidos.resumeBackgroundMusic();
+        }
     }
     
 }

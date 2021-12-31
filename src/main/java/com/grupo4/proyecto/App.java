@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import javafx.scene.image.Image;
+import sonidos.Sonidos;
 
 /**
  * JavaFX App
@@ -26,6 +27,8 @@ public class App extends Application {
         
         stage.getIcons().add(new Image(App.class.getResourceAsStream("images/icon.png")));
         
+        Sonidos.playBackgroundMusic();
+        
         stage.show();
     }
 
@@ -33,7 +36,7 @@ public class App extends Application {
         scene.setRoot(loadFXML(fxml));
     }
 
-    private static Parent loadFXML(String fxml) throws IOException {
+    public static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();
     }
