@@ -1,6 +1,7 @@
 
 package com.grupo4.proyecto;
 
+import TDATree.Tree;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -18,8 +19,11 @@ import javafx.scene.Parent;
 
 import archivos.*;
 import javafx.scene.control.Button;
+import jugadores.Jugador;
 import partida.Partida;
 import sonidos.Sonidos;
+import tablero.Posicion;
+import tablero.Tablero;
 
 public class GameController implements Initializable { 
 
@@ -61,6 +65,16 @@ public class GameController implements Initializable {
             break;
             case 2: VBoxP2.setStyle(BGStyleP2);
         }
+        Tablero tablero = Partida.PARTIDA.getTablero();
+        Jugador jugadorUno = Partida.PARTIDA.getJugadorUno();
+        Jugador jugadorDos = Partida.PARTIDA.getJugadorDos();
+        jugadorUno.marcarCasilla(tablero, new Posicion(0,0));
+        jugadorDos.marcarCasilla(tablero, new Posicion(1,0));
+        jugadorUno.marcarCasilla(tablero, new Posicion(1,1));
+        jugadorDos.marcarCasilla(tablero, new Posicion(2,0));
+        jugadorUno.marcarCasilla(tablero, new Posicion(2,2));
+        jugadorDos.marcarCasilla(tablero, new Posicion(0,2));
+
         
     }
     

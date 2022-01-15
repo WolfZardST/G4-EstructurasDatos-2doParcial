@@ -1,6 +1,7 @@
 
 package partida;
 
+import TDATree.Tree;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,23 +15,35 @@ public class Partida {
     private Jugador jugadorDos;
     private Estado estado;
     
+    
     public static Partida PARTIDA;
     public static int VICTORIAS_PARA_GANAR = 1;
     public static int SEGUNDOS_POR_TURNO = 0;
     public static Jugador JUGADOR_ACTUAL;
     public static List<Tablero> TABLEROS;
+    public static  Minimax minimax;
     
     public Partida() {
         this.tablero = new Tablero();
         this.estado = Estado.EMPATE;
         PARTIDA = this;
         TABLEROS = new LinkedList();
+        minimax = new Minimax(this.tablero);
     }
 
     public Tablero getTablero() {
         return tablero;
     }
 
+    public static Jugador getJUGADOR_ACTUAL() {
+        return JUGADOR_ACTUAL;
+    }
+    
+    public Jugador getJugador_Siguiente(Jugador jugadorActual){
+        if(jugadorActual == jugadorUno) return jugadorDos;
+        else return jugadorUno;
+    }
+    
     public Jugador getJugadorUno() {
         return jugadorUno;
     }
@@ -58,6 +71,11 @@ public class Partida {
     public void setEstado(Estado estado) {
         this.estado = estado;
     }
+
+    public Minimax getMinimax() {
+        return minimax;
+    }
+  
     
     public void buscarTresEnRaya(Jugador jugador) {
         

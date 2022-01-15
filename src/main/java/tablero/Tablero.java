@@ -30,6 +30,7 @@ public class Tablero {
                 Relleno relleno = this.getCasilla(posicionActual).getRelleno();
                 
                 clone.getCasilla(posicionActual).marcar(relleno);
+                
             }
         }
         
@@ -40,7 +41,7 @@ public class Tablero {
         
         return matrizCasillas[posicion.getFila()][posicion.getColumna()];
     }
-    
+       
     public void imprimir(){
         
         System.out.printf("%s%n", this.toString());

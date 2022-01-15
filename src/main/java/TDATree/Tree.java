@@ -15,7 +15,9 @@ public class Tree<E> {
         this( new Node(rootElement) );
     }
 
-    public Tree() {}
+    public Tree() {
+        this.root = null;
+    }
 
     public Node<E> getRoot() {
         return root;
@@ -40,5 +42,12 @@ public class Tree<E> {
     public void addChild(Tree<E> tree){
         if(tree != null && !tree.isEmpty()) root.getChildren().add( tree );
     }
+
+    @Override
+    public String toString() {
+        return "Tree{" + "root=" + root + '}';
+    }
     
+    
+       
 }

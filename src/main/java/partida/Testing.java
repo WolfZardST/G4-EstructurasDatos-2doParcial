@@ -23,6 +23,17 @@ public abstract class Testing {
         
         jugadorUno.marcarCasilla(tablero, new Posicion(0,0));
         jugadorDos.marcarCasilla(tablero, new Posicion(1,0));
+        jugadorUno.marcarCasilla(tablero, new Posicion(1,1));
+        jugadorDos.marcarCasilla(tablero, new Posicion(2,0));
+        jugadorUno.marcarCasilla(tablero, new Posicion(2,2));
+        jugadorDos.marcarCasilla(tablero, new Posicion(0,2));
+        
+        System.out.println(tablero);
+        
+        System.out.println("Aqui comienza");
+        Minimax inteligencia = new Minimax(tablero);
+        System.out.println(inteligencia.getTreeMiniMax(partida));
+        System.out.println("Aqui termina");
         
         Partida.JUGADOR_ACTUAL = jugadorUno;
         
@@ -30,14 +41,16 @@ public abstract class Testing {
         System.out.println("Utilidad X: "+tablero.calcularUtilidad(Relleno.X));
         System.out.println("Utilidad O: "+tablero.calcularUtilidad(Relleno.O));
         
-        jugadorUno.marcarCasilla(tablero, new Posicion(1,1));
-        jugadorDos.marcarCasilla(tablero, new Posicion(2,0));
-        jugadorUno.marcarCasilla(tablero, new Posicion(2,2));
+        
         
         tablero.imprimir();
         partida.buscarTresEnRaya(jugadorUno);
         
         System.out.println(partida.getEstado().name());
+        
+        
+        
+        
         
         
     }
