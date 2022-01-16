@@ -79,13 +79,12 @@ public class GameController implements Initializable {
     }
     
     private void IAMove() {
-        
+       
         Posicion posicion = Partida.JUGADOR_ACTUAL.requestMove();
         Partida.JUGADOR_ACTUAL.marcarCasilla(posicion);
         
         actualizarTablero();
         shiftChange();
-        
     }
     
     private void actualizarTablero(){
@@ -179,8 +178,6 @@ public class GameController implements Initializable {
             Partida.JUGADOR_ACTUAL.marcarCasilla(posicion);
             
             checkForVictory();
-            
-            shiftChange();
         }
 
     }
@@ -219,6 +216,7 @@ public class GameController implements Initializable {
     private void checkForDraw() {
         
         if(Partida.PARTIDA.getTablero().estaLleno()) setNewBoard();
+        else shiftChange();
         
     }
     

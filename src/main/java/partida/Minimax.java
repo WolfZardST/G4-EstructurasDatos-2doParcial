@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package partida;
 
 import TDAHeap.Heap;
@@ -30,7 +26,6 @@ public class Minimax {
     public Tree<Tablero> getMinimax() {
         return minimax;
     }
-    
 
     public final Tree<Tablero> InitMiniMax(Partida partida) {
         return getTreeMiniMax(partida);
@@ -86,7 +81,7 @@ public class Minimax {
     
     public Tablero getMejorOpcionTablero(){
         
-        Comparator<Tablero> cmpUtilidad = (Tablero t1, Tablero t2) -> t1.calcularUtilidad(Partida.JUGADOR_ACTUAL.getRelleno()) - t2.calcularUtilidad(partida.JUGADOR_ACTUAL.getRelleno());
+        Comparator<Tablero> cmpUtilidad = (Tablero t1, Tablero t2) -> t1.calcularUtilidad(Partida.JUGADOR_ACTUAL.getRelleno()) - t2.calcularUtilidad(Partida.JUGADOR_ACTUAL.getRelleno());
         Comparator<Tablero> cmpTableros = (Tablero t1, Tablero t2) -> t1.getValorMinimax() - t2.getValorMinimax();
 
         Heap<Tablero> heapPadre = new Heap(cmpTableros, true);
