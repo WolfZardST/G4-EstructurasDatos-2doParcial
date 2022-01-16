@@ -24,7 +24,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import jugadores.Humano;
+import jugadores.*;
 import partida.*;
 import sonidos.Sonidos;
 import tablero.*;
@@ -75,6 +75,17 @@ public class GameController implements Initializable {
         }
 
         actualizarTablero();
+        if(Partida.JUGADOR_ACTUAL instanceof Ordenador) IAMove();
+    }
+    
+    private void IAMove() {
+        
+        Posicion posicion = Partida.JUGADOR_ACTUAL.requestMove();
+        Partida.JUGADOR_ACTUAL.marcarCasilla(posicion);
+        
+        actualizarTablero();
+        shiftChange();
+        
     }
     
     private void actualizarTablero(){
@@ -251,6 +262,8 @@ public class GameController implements Initializable {
             updateTimersVisibility();
             resetTimers();
         }
+        
+        if(Partida.JUGADOR_ACTUAL instanceof Ordenador) IAMove();
     }
 
     private void setTimers() {

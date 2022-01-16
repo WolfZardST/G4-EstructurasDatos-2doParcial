@@ -34,4 +34,8 @@ public abstract class Jugador {
         return relleno;
     }
     
+    public Posicion requestMove() {
+        return null;
+    }
+    
 }

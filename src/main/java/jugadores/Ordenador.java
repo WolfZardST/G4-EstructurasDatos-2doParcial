@@ -1,6 +1,7 @@
 
 package jugadores;
 
+import partida.Partida;
 import tablero.*;
 
 public class Ordenador extends Jugador {
@@ -9,6 +10,10 @@ public class Ordenador extends Jugador {
         super(relleno);
     }
     
-    // HACER IA (mini-max) DONA
+    @Override
+    public Posicion requestMove() {
+        
+        return Partida.minimax.getMejorPosicion();
+    }
     
 }
