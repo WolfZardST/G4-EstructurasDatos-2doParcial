@@ -10,14 +10,14 @@ public abstract class Testing {
     
     public static void main(String[] args) {
         
-        Partida partida = new Partida();
-        Partida.VICTORIAS_PARA_GANAR = 1;
-        
-        Tablero tablero = partida.getTablero();
-        
         Jugador jugadorUno = new Humano(Relleno.X);
         Jugador jugadorDos = new Ordenador(Relleno.O);
         
+        Partida partida = new Partida(jugadorUno,jugadorDos);
+        Partida.VICTORIAS_PARA_GANAR = 1;
+        
+        Tablero tablero = partida.getTablero();
+  
         partida.setJugadorUno(jugadorUno);
         partida.setJugadorDos(jugadorDos);
         
@@ -31,8 +31,9 @@ public abstract class Testing {
         System.out.println(tablero);
         
         System.out.println("Aqui comienza");
-        Minimax inteligencia = new Minimax(tablero);
-        System.out.println(inteligencia.getTreeMiniMax(partida));
+        //Minimax inteligencia = new Minimax(partida);
+        //partida.setMinimax(inteligencia);
+        System.out.println(partida.getMinimax().getTreeMiniMax(partida));
         System.out.println("Aqui termina");
         
         Partida.JUGADOR_ACTUAL = jugadorUno;

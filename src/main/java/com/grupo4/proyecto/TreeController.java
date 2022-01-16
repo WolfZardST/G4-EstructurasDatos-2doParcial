@@ -43,7 +43,6 @@ public class TreeController implements Initializable {
         
         if(minimaxTree) showMinimaxTree(tree);
         else showGameTree(tree);
-        
     }
     
     private Relleno getRellenoP1() {

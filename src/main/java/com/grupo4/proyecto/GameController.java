@@ -76,6 +76,7 @@ public class GameController implements Initializable {
             break;
             case 2: VBoxP2.setStyle(BGStyleP2);
         }
+
         /*
         Tablero tablero = Partida.PARTIDA.getTablero();
         Jugador jugadorUno = Partida.PARTIDA.getJugadorUno();
@@ -148,6 +149,7 @@ public class GameController implements Initializable {
             
             shiftChange();
         }
+
     }
     
     private int getNumberOfCurrentPlayer() {

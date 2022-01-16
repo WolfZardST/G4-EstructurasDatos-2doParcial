@@ -22,13 +22,15 @@ public class Partida {
     public static Jugador JUGADOR_ACTUAL;
     public static List<Tablero> TABLEROS;
     public static  Minimax minimax;
-    
-    public Partida() {
+       
+    public Partida(Jugador jugadorUno, Jugador jugadorDos) {
         this.tablero = new Tablero();
         this.estado = Estado.EMPATE;
         PARTIDA = this;
         TABLEROS = new LinkedList();
-        minimax = new Minimax(this.tablero);
+        this.jugadorUno = jugadorUno;
+        this.jugadorDos = jugadorDos;
+        minimax = new Minimax(this);
     }
 
     public Tablero getTablero() {
@@ -75,7 +77,11 @@ public class Partida {
     public Minimax getMinimax() {
         return minimax;
     }
-  
+
+    public void setMinimax(Minimax minimax) {
+        Partida.minimax = minimax;
+    }
+    
     
     public void buscarTresEnRaya(Jugador jugador) {
         

@@ -16,13 +16,13 @@ public interface CargadorPartida {
     public static void cargarPartida(File archivo) {
         
         try ( BufferedReader reader = new BufferedReader( new FileReader(archivo) ) ) {
-            
-            Partida partida = new Partida();
-            
+                       
             String[] tokens;
             
             Jugador jugadorUno = obtenerJugador(reader.readLine());
             Jugador jugadorDos = obtenerJugador(reader.readLine());
+            
+            Partida partida = new Partida(jugadorUno,jugadorDos);
                     
             partida.setJugadorUno(jugadorUno);
             partida.setJugadorDos(jugadorDos);

@@ -16,15 +16,22 @@ import jugadores.Jugador;
  */
 public class Minimax {
 
-    Tree<Tablero> estados;
+    Tree<Tablero> minimax;
+    Partida partida;
 
-    public Minimax(Tablero tableroActual) {
-        this.estados = InitMiniMax(tableroActual);
+    public Minimax(Partida partida) {
+        this.partida = partida;
+        this.minimax = InitMiniMax(partida);
+        
     }
 
-    public Tree<Tablero> InitMiniMax(Tablero tableroActual) {
+    public Tree<Tablero> getMinimax() {
+        return minimax;
+    }
+    
 
-        return null;
+    public Tree<Tablero> InitMiniMax(Partida partida) {
+        return getTreeMiniMax(partida);
     }
 
     public Tree<Tablero> calculateChildren(Partida partida, Tablero Padre, Jugador jugadorActual, boolean lastLevel) {          
@@ -47,10 +54,10 @@ public class Minimax {
                         Tree<Tablero> subTablero = calculateChildren(partida, clone, jugadorSiguiente, true );
                         treeTablero.addChild(subTablero);
                     }else{
+                       
                        treeTablero.addChild(clone);
                     }
-                    
-                    
+               
                 }
             }
         }
@@ -58,12 +65,17 @@ public class Minimax {
         return treeTablero;
     }
 
-    public Tree<Tablero> getTreeMiniMax(Partida partida) {
-        
+    public Tree<Tablero> getTreeMiniMax(Partida partida) {      
         Tablero tablero = partida.getTablero();        
         Tree<Tablero> treeMiniMax = calculateChildren(partida, tablero, partida.getJUGADOR_ACTUAL(), false);
         return treeMiniMax;
         
+    }   
+
+    @Override
+    public String toString() {
+        return ""+minimax;
     }
+    
 
 }
