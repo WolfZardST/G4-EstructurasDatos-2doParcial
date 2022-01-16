@@ -299,5 +299,5 @@ public class Tablero {
         
         if(victoriosas.size() < 3) victoriosas.clear();
     }
-    
+   
 }

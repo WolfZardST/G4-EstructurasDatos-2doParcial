@@ -85,8 +85,15 @@ public class Minimax {
         Comparator<Tablero> cmpTableros = (Tablero t1, Tablero t2) -> t1.getValorMinimax() - t2.getValorMinimax();
 
         Heap<Tablero> heapPadre = new Heap(cmpTableros, true);
-               
-        LinkedList<Tree<Tablero>> children = getTreeMiniMax(partida).getRoot().getChildren();
+         
+        Tree<Tablero> tableroMiniMax = getTreeMiniMax(partida);
+        LinkedList<Tree<Tablero>> children = tableroMiniMax.getRoot().getChildren();
+        
+        System.out.println(children);
+        
+        if (children.size() == 1){
+            return children.get(0).getRoot().getContent();
+        } 
         
         for (Tree<Tablero> child: children){
             
@@ -108,7 +115,7 @@ public class Minimax {
                 tableroChild.setValorMinimax(utilidad);     
                 }
             }
-            
+                       
             Tablero tableroMax = heapHijo.poll(); 
             
             Tablero tableroDad = child.getRoot().getContent();
