@@ -105,8 +105,9 @@ public class Minimax {
                 int utilidad = tableroMax.calcularUtilidad(partida.JUGADOR_ACTUAL.getRelleno());
                 tableroMax.setValorMinimax(utilidad);               
             }
-            
+            System.out.println(heapHijo);          
             Tablero tableroMax = heapHijo.poll(); 
+
             Tablero tableroDad = child.getRoot().getContent();
             tableroDad.setValorMinimax(tableroMax.getValorMinimax());
             heapPadre.offer(tableroDad);
@@ -122,7 +123,7 @@ public class Minimax {
     public Posicion getMejorPosicion(){
         
         Tablero bestTablero = getMejorOpcionTablero();
-        Tablero currentTablero = Partida.PARTIDA.getTablero();
+        Tablero currentTablero = partida.getTablero();
      
         for (int fila = 0; fila < 3; fila++) {
 

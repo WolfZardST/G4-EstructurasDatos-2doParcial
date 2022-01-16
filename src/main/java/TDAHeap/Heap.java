@@ -222,6 +222,16 @@ public class Heap<E> {
     public List<E> toSortedList() {
         return Arrays.asList(toSortedArray());
     }
+
+    @Override
+    public String toString() {
+        for (E element: elements){
+            System.out.println(element);
+        }
+        return "Heap{" + "elements=" + elements + '}';
+    }
+    
+    
     
 }
 
