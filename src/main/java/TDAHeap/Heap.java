@@ -226,7 +226,7 @@ public class Heap<E> {
     @Override
     public String toString() {
         for (E element: elements){
-            System.out.println(element);
+            if(element != null) System.out.println(element);
         }
         return "Heap{" + "elements=" + elements + '}';
     }

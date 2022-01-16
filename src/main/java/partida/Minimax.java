@@ -83,7 +83,7 @@ public class Minimax {
     public String toString() {
         return ""+minimax;
     }
-    
+         
     public Tablero getMejorOpcionTablero(){
         
         Comparator<Tablero> cmpUtilidad = (Tablero t1, Tablero t2) -> t1.calcularUtilidad(Partida.JUGADOR_ACTUAL.getRelleno()) - t2.calcularUtilidad(partida.JUGADOR_ACTUAL.getRelleno());
@@ -91,7 +91,7 @@ public class Minimax {
 
         Heap<Tablero> heapPadre = new Heap(cmpTableros, true);
                
-        LinkedList<Tree<Tablero>> children = this.minimax.getRoot().getChildren();
+        LinkedList<Tree<Tablero>> children = getTreeMiniMax(partida).getRoot().getChildren();
         
         for (Tree<Tablero> child: children){
             
@@ -100,20 +100,28 @@ public class Minimax {
             
             for (Tree<Tablero> childOfChild: childrenOfChildren){
                 
-                Tablero tableroMax = childOfChild.getRoot().getContent();
-                heapHijo.offer(tableroMax);   
-                int utilidad = tableroMax.calcularUtilidad(Partida.JUGADOR_ACTUAL.getRelleno());
-                tableroMax.setValorMinimax(utilidad);               
+                if(childOfChild != null){
+                Tablero tableroChild = childOfChild.getRoot().getContent();
+                heapHijo.offer(tableroChild);   
+                int utilidad = tableroChild.calcularUtilidad(Partida.JUGADOR_ACTUAL.getRelleno());
+                tableroChild.setValorMinimax(utilidad);     
+                
+                }
             }
-            System.out.println(heapHijo);          
+            System.out.println("aaaaaaaaa");
+            System.out.println(heapHijo.toString());       
             Tablero tableroMax = heapHijo.poll(); 
 
             Tablero tableroDad = child.getRoot().getContent();
             tableroDad.setValorMinimax(tableroMax.getValorMinimax());
+            System.out.println("tablero dad \n" + tableroDad);
+            System.out.println("tablero hijo max \n" + tableroMax);
             heapPadre.offer(tableroDad);
                   
         }
         
+        System.out.println("bbbbb");
+        System.out.println(heapPadre.toString());
         Tablero chosen = heapPadre.poll();
         chosen.setIsChosen(true);
         return chosen;
