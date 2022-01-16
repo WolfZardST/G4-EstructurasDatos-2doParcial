@@ -1,7 +1,6 @@
 
 package com.grupo4.proyecto;
 
-import TDATree.Tree;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -19,12 +18,14 @@ import javafx.scene.Parent;
 
 import archivos.*;
 import javafx.scene.Cursor;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import jugadores.Humano;
-import partida.Partida;
+import jugadores.*;
+import partida.*;
 import sonidos.Sonidos;
 import tablero.*;
 
@@ -57,6 +58,8 @@ public class GameController implements Initializable {
     private Pane treePane;
     @FXML
     private Button muteUnmuteButton;
+    @FXML
+    private Button btnMenu;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -71,10 +74,23 @@ public class GameController implements Initializable {
             case 2: VBoxP2.setStyle(BGStyleP2);
         }
 
-        generarTablero();
+        actualizarTablero();
+        if(Partida.JUGADOR_ACTUAL instanceof Ordenador) IAMove();
     }
     
-    private void generarTablero(){
+    private void IAMove() {
+        
+        Posicion posicion = Partida.JUGADOR_ACTUAL.requestMove();
+        Partida.JUGADOR_ACTUAL.marcarCasilla(posicion);
+        
+        actualizarTablero();
+        shiftChange();
+        
+    }
+    
+    private void actualizarTablero(){
+        
+        boardPane.getChildren().clear();
         
         GridPane gridpane=new GridPane();
         Tablero partida=Partida.PARTIDA.getTablero();
@@ -110,11 +126,20 @@ public class GameController implements Initializable {
         pane.setStyle(squareStyle);
         pane.setCursor(Cursor.HAND);
         
-        if(n.getRelleno()!=Relleno.EMPTY){
-            Label simbolo=new Label(n.getRelleno().name());
-            simbolo.setStyle("-fx-font-size: 50");
+        Relleno relleno = n.getRelleno();
+        
+        if(relleno != Relleno.EMPTY){
+            
+            Label simbolo = new Label(relleno.name());
+            
+            if(relleno == Partida.PARTIDA.getJugadorUno().getRelleno()) simbolo.setStyle(fillStyle + "-fx-text-fill: #539eee");
+            else simbolo.setStyle(fillStyle + "-fx-text-fill: #ff2b18");
+            
             pane.getChildren().add(simbolo);
+            pane.setMouseTransparent(true);
         }
+        
+        if(n.isVictoriosa()) pane.setStyle(squareStyle + "-fx-background-color: #FFFEBF");
        
         return pane;
     }
@@ -140,9 +165,9 @@ public class GameController implements Initializable {
             Label simbolo = new Label(relleno.name());
             
             switch(getNumberOfCurrentPlayer()) {
-                case 1: simbolo.setStyle(fillStyle+"-fx-text-fill: #539eee");
+                case 1: simbolo.setStyle(fillStyle + "-fx-text-fill: #539eee");
                 break;
-                case 2: simbolo.setStyle(fillStyle+"-fx-text-fill: #ff2b18");
+                case 2: simbolo.setStyle(fillStyle + "-fx-text-fill: #ff2b18");
             }
             
             pane.getChildren().add(simbolo);
@@ -153,9 +178,62 @@ public class GameController implements Initializable {
             //Actualiza el tablero
             Partida.JUGADOR_ACTUAL.marcarCasilla(posicion);
             
+            checkForVictory();
+            
             shiftChange();
         }
 
+    }
+    
+    private void setNewBoard() {
+        
+        Partida.TABLEROS.clear();
+        Partida.PARTIDA.setTablero(new Tablero());
+        Partida.PARTIDA.setEstado(Estado.EMPATE);
+
+        actualizarTablero();
+
+        if (timer != null) resetTimers();
+    }
+    
+    private void checkForVictory() {
+        
+        if(Partida.PARTIDA.buscarTresEnRaya(Partida.JUGADOR_ACTUAL)) {
+            
+            addVictoryToCurrentPlayer();
+            actualizarTablero();
+            
+            checkForWin();
+            
+        } else checkForDraw();
+    }
+    
+    private void checkForWin() {
+        
+        if(Partida.JUGADOR_ACTUAL.getVictorias() == Partida.VICTORIAS_PARA_GANAR) endgame();
+        
+        else setNewBoard();
+            
+    }
+    
+    private void checkForDraw() {
+        
+        if(Partida.PARTIDA.getTablero().estaLleno()) setNewBoard();
+        
+    }
+    
+    private void endgame() {
+        
+        Sonidos.playEndgameSound();
+        
+        Alert alerta = new Alert(AlertType.INFORMATION);
+        
+        alerta.setTitle("Partida Terminada");
+        alerta.setHeaderText(Partida.PARTIDA.getEstado().name());
+        
+        alerta.showAndWait();
+        
+        btnMenu.fire();
     }
     
     private int getNumberOfCurrentPlayer() {
@@ -184,6 +262,8 @@ public class GameController implements Initializable {
             updateTimersVisibility();
             resetTimers();
         }
+        
+        if(Partida.JUGADOR_ACTUAL instanceof Ordenador) IAMove();
     }
 
     private void setTimers() {

@@ -20,9 +20,9 @@ public abstract class Testing {
   
         partida.setJugadorUno(jugadorUno);
         partida.setJugadorDos(jugadorDos);
-        
+
         jugadorUno.marcarCasilla(new Posicion(1,0));
-        jugadorDos.marcarCasilla(new Posicion(0,1));
+
         jugadorUno.marcarCasilla(new Posicion(1,1));
         jugadorDos.marcarCasilla(new Posicion(2,0));
         jugadorUno.marcarCasilla(new Posicion(2,2));

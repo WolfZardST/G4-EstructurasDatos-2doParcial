@@ -166,9 +166,6 @@ public class MenuController implements Initializable {
         
         Partida partida = new Partida(jugadorUno,jugadorDos);
         
-        //partida.setJugadorUno(jugadorUno);
-        //partida.setJugadorDos(jugadorDos);
-        
         Partida.JUGADOR_ACTUAL = (firstTurnPaneP1.getOpacity() == 0.15) ? jugadorUno : jugadorDos;
         
         App.setRoot("game");

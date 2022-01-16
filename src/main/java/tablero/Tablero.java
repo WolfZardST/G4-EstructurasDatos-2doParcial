@@ -66,6 +66,22 @@ public class Tablero {
         System.out.printf("%s%n", this.toString());
     }
     
+    public boolean estaLleno() {
+        
+        for(int fila = 0; fila < 3; fila++){
+            
+            for(int columna = 0; columna < 3; columna ++){
+                
+                Posicion posicionActual = new Posicion(fila, columna);
+                Relleno relleno = this.getCasilla(posicionActual).getRelleno();
+                
+                if(relleno == Relleno.EMPTY) return false;
+            }
+        }
+        
+        return true;
+    }
+    
     @Override
     public String toString() {
         
