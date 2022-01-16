@@ -5,6 +5,7 @@
  */
 package partida;
 
+import TDAHeap.Heap;
 import tablero.*;
 import TDATree.Tree;
 import java.util.Comparator;
@@ -83,19 +84,63 @@ public class Minimax {
         return ""+minimax;
     }
     
-    public Tablero getMejorOpcion(){
+    public Tablero getMejorOpcionTablero(){
         
         Comparator<Tablero> cmpUtilidad = (Tablero t1, Tablero t2) -> t1.calcularUtilidad(partida.JUGADOR_ACTUAL.getRelleno()) - t2.calcularUtilidad(partida.JUGADOR_ACTUAL.getRelleno());
-        
-        
-        // agarro el tree, por cada get children le hago un heap y lo agrego al heap mas grande :) 
-        
+        Comparator<Tablero> cmpTableros = (Tablero t1, Tablero t2) -> t1.getValorMinimax() - t2.getValorMinimax();
+
+        Heap<Tablero> heapPadre = new Heap(cmpTableros, true);
+               
         LinkedList<Tree<Tablero>> children = this.minimax.getRoot().getChildren();
         
-        
-        return null;
-        
+        for (Tree<Tablero> child: children){
+            
+            Heap<Tablero> heapHijo = new Heap(cmpUtilidad, false);
+            LinkedList<Tree<Tablero>> childrenOfChildren = child.getRoot().getChildren();            
+            
+            for (Tree<Tablero> childOfChild: childrenOfChildren){
                 
+                Tablero tableroMax = childOfChild.getRoot().getContent();
+                heapHijo.offer(tableroMax);   
+                int utilidad = tableroMax.calcularUtilidad(partida.JUGADOR_ACTUAL.getRelleno());
+                tableroMax.setValorMinimax(utilidad);               
+            }
+            
+            Tablero tableroMax = heapHijo.poll(); 
+            Tablero tableroDad = child.getRoot().getContent();
+            tableroDad.setValorMinimax(tableroMax.getValorMinimax());
+            heapPadre.offer(tableroDad);
+                  
+        }
+        
+        Tablero chosen = heapPadre.poll();
+        chosen.setIsChosen(true);
+        return chosen;
+                      
+    }
+    
+    public Posicion getMejorPosicion(){
+        
+        Tablero bestTablero = getMejorOpcionTablero();
+        Tablero currentTablero = Partida.PARTIDA.getTablero();
+     
+        for (int fila = 0; fila < 3; fila++) {
+
+            for (int columna = 0; columna < 3; columna++) {
+                
+                Posicion posicion = new Posicion(fila, columna);
+                
+                Relleno bestRelleno = bestTablero.getCasilla(posicion).getRelleno();
+                Relleno currentRelleno = currentTablero.getCasilla(posicion).getRelleno();
+
+                if (bestRelleno != currentRelleno){
+                    return posicion;
+                }
+                
+            }
+            
+        }
+        return null;
     }
     
 
