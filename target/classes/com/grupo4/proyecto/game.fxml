@@ -29,23 +29,26 @@
             </Label>
          </children>
       </VBox>
-      <Pane prefHeight="150.0" prefWidth="800.0">
+      <HBox alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="800.0" spacing="15.0">
          <children>
-            <Button id="menuButton" fx:id="btnMenu" layoutX="51.0" layoutY="38.0" mnemonicParsing="false" onAction="#menu">
+            <Button id="menuButton" fx:id="btnMenu" mnemonicParsing="false" onAction="#menu">
                <font>
                   <Font size="16.0" />
                </font>
             </Button>
-            <Button id="saveButton" layoutX="154.0" layoutY="38.0" mnemonicParsing="false" onAction="#saveGame" prefHeight="42.0" prefWidth="86.0">
+            <Button id="saveButton" mnemonicParsing="false" onAction="#saveGame" prefHeight="42.0" prefWidth="86.0">
                <font>
                   <Font size="16.0" />
                </font>
             </Button>
-            <Button id="treeButton" layoutX="257.0" layoutY="38.0" mnemonicParsing="false" onAction="#showTree" prefHeight="74.0" prefWidth="80.0" />
-            <Button id="muteButton" fx:id="muteUnmuteButton" layoutX="354.0" layoutY="39.0" mnemonicParsing="false" onAction="#muteUnmuteMusic" />
-            <Button id="minimaxButton" layoutX="451.0" layoutY="40.0" mnemonicParsing="false" onAction="#showMinimaxTree" />
+            <Button id="treeButton" mnemonicParsing="false" onAction="#showTree" prefHeight="74.0" prefWidth="80.0" />
+            <Button id="minimaxButton" mnemonicParsing="false" onAction="#showMinimaxTree" />
+            <Button id="muteButton" fx:id="muteUnmuteButton" mnemonicParsing="false" onAction="#muteUnmuteMusic" />
          </children>
-      </Pane>
+         <padding>
+            <Insets left="40.0" />
+         </padding>
+      </HBox>
       <HBox id="borderPane" fx:id="boardPane" alignment="BOTTOM_CENTER" layoutX="125.0" layoutY="150.0" prefHeight="550.0" prefWidth="550.0">
          <padding>
             <Insets top="2.0" />

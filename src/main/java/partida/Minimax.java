@@ -71,7 +71,8 @@ public class Minimax {
         Tablero tablero = partida.getTablero();        
         Tree<Tablero> treeMiniMax = calculateChildren(partida, tablero, partida.getJugadorSiguiente(Partida.JUGADOR_ACTUAL), false);
         
-        return treeMiniMax;
+        minimax = treeMiniMax;
+        return minimax;
     }   
 
     @Override
@@ -89,10 +90,12 @@ public class Minimax {
         Tree<Tablero> tableroMiniMax = getTreeMiniMax(partida);
         LinkedList<Tree<Tablero>> children = tableroMiniMax.getRoot().getChildren();
         
-        System.out.println(children);
-        
         if (children.size() == 1){
-            return children.get(0).getRoot().getContent();
+            
+            Tablero tablero = children.get(0).getRoot().getContent();
+            tablero.setIsChosen(true);
+            
+            return tablero;
         } 
         
         for (Tree<Tablero> child: children){
@@ -125,7 +128,10 @@ public class Minimax {
                 heapPadre.offer(tableroDad);
             }    
             
-            if(tableroDad.buscarTresEnRaya(Partida.JUGADOR_ACTUAL)) return tableroDad;
+            if(tableroDad.buscarTresEnRaya(Partida.JUGADOR_ACTUAL)) {
+                tableroDad.setIsChosen(true);
+                return tableroDad;
+            }
                 
         }
         

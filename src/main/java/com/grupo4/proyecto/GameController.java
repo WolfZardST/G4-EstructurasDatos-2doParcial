@@ -53,6 +53,8 @@ public class GameController implements Initializable {
     private final String fillStyle = "-fx-graphic-text-gap: 0px; -fx-font-weight: bold; -fx-font-size: 118px;";
     private final String squareStyle = "-fx-border-color: black; -fx-border-style: solid; -fx-border-width: 1px;";
     
+    private Thread IAThread;
+    
     @FXML
     private HBox boardPane;
     @FXML
@@ -80,12 +82,29 @@ public class GameController implements Initializable {
     }
     
     private void IAMove() {
-       
-        Posicion posicion = Partida.JUGADOR_ACTUAL.requestMove();
-        Partida.JUGADOR_ACTUAL.marcarCasilla(posicion);
         
-        actualizarTablero();
-        checkForVictory();
+        IAThread = new Thread(() -> {
+        
+            try {
+                Thread.sleep(1000);
+                Posicion posicion = Partida.JUGADOR_ACTUAL.requestMove();
+                Partida.JUGADOR_ACTUAL.marcarCasilla(posicion);
+                
+                Sonidos.playSquareSound();
+                
+                Platform.runLater(() -> {
+                    
+                    actualizarTablero();
+                    checkForVictory();
+                });
+                
+            } catch (InterruptedException ex) {}
+        
+        });
+        
+        IAThread.setDaemon(true);
+        IAThread.start();
+        
     }
     
     private void actualizarTablero(){
@@ -191,7 +210,7 @@ public class GameController implements Initializable {
 
         actualizarTablero();
 
-        if (timer != null) resetTimers();
+        shiftChange();
     }
     
     private void checkForVictory() {
@@ -216,7 +235,22 @@ public class GameController implements Initializable {
     
     private void checkForDraw() {
         
-        if(Partida.PARTIDA.getTablero().estaLleno()) setNewBoard();
+        if(Partida.PARTIDA.getTablero().estaLleno()) {
+            
+            Alert alerta = new Alert(AlertType.INFORMATION);
+        
+            alerta.setTitle("EMPATE");
+            alerta.setHeaderText(Partida.PARTIDA.getEstado().name());
+            
+            if(timer != null) timer.stop();
+            alerta.showAndWait();
+            
+            if(Partida.PARTIDA.getJugadorUno() instanceof Ordenador && Partida.PARTIDA.getJugadorDos() instanceof Ordenador) {
+                btnMenu.fire();
+                
+            } else setNewBoard();
+            
+        }
         else shiftChange();
         
     }
@@ -228,11 +262,14 @@ public class GameController implements Initializable {
         Alert alerta = new Alert(AlertType.INFORMATION);
         
         alerta.setTitle("Partida Terminada");
-        alerta.setHeaderText(Partida.PARTIDA.getEstado().name());
         
-        if(Partida.JUGADOR_ACTUAL instanceof Ordenador) Platform.runLater(() -> alerta.showAndWait());
+        switch(getNumberOfCurrentPlayer()){
+            case 1: alerta.setHeaderText("GANA JUGADOR 1");
+            break;
+            case 2: alerta.setHeaderText("GANA JUGADOR 2");
+        }
         
-        else alerta.showAndWait();
+        alerta.showAndWait();
         
         btnMenu.fire();
     }
@@ -356,10 +393,11 @@ public class GameController implements Initializable {
     private void menu(ActionEvent event) throws IOException {
         
         Partida.SEGUNDOS_POR_TURNO = 0;
+        
         if(timer != null) timer.stop();
+        if(IAThread != null && IAThread.isAlive()) IAThread.interrupt();
         
         App.setRoot("menu");
-        
     }
 
     @FXML
@@ -373,28 +411,53 @@ public class GameController implements Initializable {
         if(timer != null) timer.play();
     }
     
-    private void loadTreeView() throws IOException {
+    private void performLoadTreeView(boolean minimaxTree) throws IOException {
+        
+        if(timer != null) timer.pause();
+            
+        if(IAThread != null && IAThread.isAlive()) IAThread.interrupt();
+            
+        treePane.setVisible(true);
+        
+        TreeController.minimaxTree = minimaxTree;
+        
+        Parent tree = App.loadFXML("tree");
+        treePane.getChildren().add(tree);
+    }
+    
+    private void unloadTreeView() {
+        
+        treePane.setVisible(false);
+        if(timer != null) timer.play();
+            
+        if(Partida.JUGADOR_ACTUAL instanceof Ordenador) IAMove();
+    }
+    
+    private void loadTreeView(boolean minimaxTree) throws IOException {
+        
+        treePane.getChildren().clear();
         
         if(treePane.isVisible()) {
             
-            treePane.setVisible(false);
-            if(timer != null) timer.play();
+            if(TreeController.minimaxTree) {
+                
+                if(minimaxTree) unloadTreeView();
+                else performLoadTreeView(minimaxTree);
+                
+            } else {
+                
+                if(minimaxTree) performLoadTreeView(minimaxTree);
+                else unloadTreeView();
+            }
             
-        } else {
-            
-            if(timer != null) timer.pause();
-            treePane.setVisible(true);
-            
-            Parent tree = App.loadFXML("tree");
-            treePane.getChildren().add(tree);
-        }
+        } else  performLoadTreeView(minimaxTree);
         
     }
 
     @FXML
     private void showTree(ActionEvent event) throws IOException {
-        TreeController.minimaxTree = false;
-        loadTreeView();
+        
+        loadTreeView(false);
     }
 
     @FXML
@@ -414,8 +477,8 @@ public class GameController implements Initializable {
 
     @FXML
     private void showMinimaxTree(ActionEvent event) throws IOException {
-        TreeController.minimaxTree = true;
-        loadTreeView();
+        
+        loadTreeView(true);
     }
     
 }

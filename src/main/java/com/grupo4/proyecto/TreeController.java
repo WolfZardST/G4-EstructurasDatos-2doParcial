@@ -39,7 +39,15 @@ public class TreeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        Tree tree = (minimaxTree) ? Partida.minimax.getTreeMiniMax(Partida.PARTIDA) : buildTreeFromBoards( Partida.TABLEROS );     
+        Tree tree;
+        
+        if(minimaxTree) {
+            Partida.minimax.getMejorOpcionTablero();
+            tree = Partida.minimax.getMinimax();
+            
+        } else {
+            tree = buildTreeFromBoards( Partida.TABLEROS );
+        }
         
         if(minimaxTree) showMinimaxTree(tree);
         else showGameTree(tree);
@@ -57,7 +65,9 @@ public class TreeController implements Initializable {
         
         GridPane gridPane = new GridPane();
         
-        gridPane.setStyle(borderStyle);
+        if(tablero.isIsChosen()) gridPane.setStyle(borderStyle + "-fx-background-color: #afffa3");
+        else gridPane.setStyle(borderStyle);
+        
         gridPane.setPrefSize(ANCHO_TABLERO, ANCHO_TABLERO);
         
         for(int fila = 0; fila < 3; fila ++) {

@@ -283,6 +283,8 @@ public class Tablero {
    
     private void buscarTresEnRayaDiagonal(List<Casilla> victoriosas, Relleno relleno) {
         
+        if(!victoriosas.isEmpty()) return;
+        
         for(int fila = 0, columna = 0; fila < 3; fila ++, columna++) {
             
             Casilla casilla = matrizCasillas[fila][columna];

@@ -49,9 +49,7 @@ public class MenuController implements Initializable {
     private Label timerLabel;
     @FXML
     private Pane timerPane;
-    
-// GIAN
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
