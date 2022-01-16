@@ -273,9 +273,8 @@ public class GameController implements Initializable {
         
         if(timer != null) timer.play();
     }
-
-    @FXML
-    private void showTree(ActionEvent event) throws IOException {
+    
+    private void loadTreeView() throws IOException {
         
         if(treePane.isVisible()) {
             
@@ -290,6 +289,13 @@ public class GameController implements Initializable {
             Parent tree = App.loadFXML("tree");
             treePane.getChildren().add(tree);
         }
+        
+    }
+
+    @FXML
+    private void showTree(ActionEvent event) throws IOException {
+        TreeController.minimaxTree = false;
+        loadTreeView();
     }
 
     @FXML
@@ -305,6 +311,12 @@ public class GameController implements Initializable {
             muteUnmuteButton.setStyle(String.format("-fx-graphic: url('%s');", App.class.getResource("images/game/sound.png")));
             Sonidos.resumeBackgroundMusic();
         }
+    }
+
+    @FXML
+    private void showMinimaxTree(ActionEvent event) throws IOException {
+        TreeController.minimaxTree = true;
+        loadTreeView();
     }
     
 }

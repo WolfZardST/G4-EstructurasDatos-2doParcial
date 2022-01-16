@@ -34,11 +34,15 @@ public class TreeController implements Initializable {
     private final double ANCHO_TABLERO = 50.0;
     private final double ESPACIADO_VERTICAL = 50.0;
     
+    public static boolean minimaxTree;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        Tree tree = buildTreeFromBoards( Partida.TABLEROS );       
-        showGraphicalTree(Partida.minimax.getTreeMiniMax(Partida.PARTIDA));
+        Tree tree = (minimaxTree) ? Partida.minimax.getTreeMiniMax(Partida.PARTIDA) : buildTreeFromBoards( Partida.TABLEROS );     
+        
+        if(minimaxTree) showMinimaxTree(tree);
+        else showGameTree(tree);
         
     }
     
@@ -180,7 +184,63 @@ public class TreeController implements Initializable {
         return arbol;
     }
     
-    private void showGraphicalTree( Tree<Tablero> tree ) {
+    private void showMinimaxTree( Tree<Tablero> tree ) {
+        
+        Stack<Tree<Tablero>> pila = new Stack();
+        
+        tree.getRoot().getChildren().forEach(pila::push);
+        
+        int nivel = 0;
+        
+        double padreX = ANCHO_TOTAL / 2;
+        double padreY = ANCHO_TABLERO;
+        
+        while(!pila.isEmpty()) {
+            
+            Tree<Tablero> padre = pila.pop();
+            
+            HBox hboxPadre = newBoardHBox( nivel, 0 );
+            
+            Tablero tableroPadre = padre.getRoot().getContent();
+                
+            GridPane tableroGridPanePadre = buildGridPaneFromBoard(tableroPadre);
+            
+            hboxPadre.getChildren().add(tableroGridPanePadre);
+            
+            double inicioY = padreY + (ANCHO_TABLERO + ESPACIADO_VERTICAL) * nivel;
+            
+            nivel ++;
+            
+            List<Tree<Tablero>> arbolesTableros = padre.getRoot().getChildren();
+            double espacioTableros = (ANCHO_TOTAL - arbolesTableros.size() * ANCHO_TABLERO) / (arbolesTableros.size() - 1);
+            
+            HBox hbox = newBoardHBox( nivel, espacioTableros );
+            
+            int contador = 0;
+            
+            for(Tree<Tablero> arbolTablero : arbolesTableros) {
+                
+                Tablero tablero = arbolTablero.getRoot().getContent();
+                
+                GridPane tableroGridPane = buildGridPaneFromBoard(tablero);
+                
+                hbox.getChildren().add( tableroGridPane );
+                
+                double finalX = contador * (ANCHO_TABLERO + espacioTableros) + ANCHO_TABLERO/2;
+                double finalY = (ANCHO_TABLERO + ESPACIADO_VERTICAL) * nivel;
+                
+                Line linea = new Line(padreX, inicioY, finalX, finalY);
+                backgroundPane.getChildren().add( linea );
+
+                contador ++;
+            }
+            
+            nivel ++;
+        }
+        
+    }
+    
+    private void showGameTree( Tree<Tablero> tree ) {
         
         showParentTree( tree );
         

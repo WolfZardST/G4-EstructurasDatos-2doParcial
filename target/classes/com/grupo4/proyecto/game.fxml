@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="700.0" prefWidth="800.0" stylesheets="@game.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.grupo4.proyecto.GameController">
+<Pane prefHeight="700.0" prefWidth="800.0" stylesheets="@game.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.grupo4.proyecto.GameController">
    <children>
       <VBox fx:id="VBoxP1" layoutY="150.0">
          <children>
@@ -43,6 +43,7 @@
             </Button>
             <Button id="treeButton" layoutX="257.0" layoutY="38.0" mnemonicParsing="false" onAction="#showTree" prefHeight="74.0" prefWidth="80.0" />
             <Button id="muteButton" fx:id="muteUnmuteButton" layoutX="354.0" layoutY="39.0" mnemonicParsing="false" onAction="#muteUnmuteMusic" />
+            <Button id="minimaxButton" layoutX="451.0" layoutY="40.0" mnemonicParsing="false" onAction="#showMinimaxTree" />
          </children>
       </Pane>
       <Pane id="borderPane" fx:id="boardPane" layoutX="125.0" layoutY="150.0" prefHeight="550.0" prefWidth="550.0">
