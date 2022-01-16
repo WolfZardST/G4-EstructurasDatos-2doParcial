@@ -37,7 +37,7 @@ public class TreeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        Tree tree = buildTreeFromBoards( Partida.TABLEROS );       
+        Tree tree = buildTreeFromBoards( Partida.TABLEROS );     
         showGraphicalTree(Partida.minimax.getTreeMiniMax(Partida.PARTIDA));
         
     }

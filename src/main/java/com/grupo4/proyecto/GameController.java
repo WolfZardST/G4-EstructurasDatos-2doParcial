@@ -65,17 +65,15 @@ public class GameController implements Initializable {
             break;
             case 2: VBoxP2.setStyle(BGStyleP2);
         }
-        Tablero tablero = Partida.PARTIDA.getTablero();
-        Jugador jugadorUno = Partida.PARTIDA.getJugadorUno();
-        Jugador jugadorDos = Partida.PARTIDA.getJugadorDos();
-        jugadorUno.marcarCasilla(tablero, new Posicion(0,0));
-        jugadorDos.marcarCasilla(tablero, new Posicion(1,0));
-        jugadorUno.marcarCasilla(tablero, new Posicion(1,1));
-        jugadorDos.marcarCasilla(tablero, new Posicion(2,0));
-        jugadorUno.marcarCasilla(tablero, new Posicion(2,2));
-        jugadorDos.marcarCasilla(tablero, new Posicion(0,2));
-
-        
+//        Tablero tablero = Partida.PARTIDA.getTablero();
+//        Jugador jugadorUno = Partida.PARTIDA.getJugadorUno();
+//        Jugador jugadorDos = Partida.PARTIDA.getJugadorDos();
+//        jugadorUno.marcarCasilla(tablero, new Posicion(0,0));
+//        jugadorDos.marcarCasilla(tablero, new Posicion(1,0));
+//        jugadorUno.marcarCasilla(tablero, new Posicion(1,1));
+//        jugadorDos.marcarCasilla(tablero, new Posicion(2,0));
+//        jugadorUno.marcarCasilla(tablero, new Posicion(2,2));
+//        jugadorDos.marcarCasilla(tablero, new Posicion(0,2));
     }
     
     private int getNumberOfCurrentPlayer() {

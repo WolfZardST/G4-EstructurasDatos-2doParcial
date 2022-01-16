@@ -157,16 +157,17 @@ public class MenuController implements Initializable {
     @FXML
     private void newGame(MouseEvent event) throws IOException {
         
-        Partida partida = new Partida();
-        
+                
         Relleno rellenoJugadorUno = (fillPaneP1.getStyle().contains("O.png")) ? Relleno.O : Relleno.X;
         Relleno rellenoJugadorDos = (fillPaneP2.getStyle().contains("O.png")) ? Relleno.O : Relleno.X;
         
         Jugador jugadorUno = (humanPaneP1.getOpacity() == 0.15) ? new Humano(rellenoJugadorUno) : new Ordenador(rellenoJugadorUno);
         Jugador jugadorDos = (humanPaneP2.getOpacity() == 0.15) ? new Humano(rellenoJugadorDos) : new Ordenador(rellenoJugadorDos);
         
-        partida.setJugadorUno(jugadorUno);
-        partida.setJugadorDos(jugadorDos);
+        Partida partida = new Partida(jugadorUno,jugadorDos);
+        
+        //partida.setJugadorUno(jugadorUno);
+        //partida.setJugadorDos(jugadorDos);
         
         Partida.JUGADOR_ACTUAL = (firstTurnPaneP1.getOpacity() == 0.15) ? jugadorUno : jugadorDos;
         
