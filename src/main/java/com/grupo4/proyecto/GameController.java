@@ -17,6 +17,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.Parent;
 
 import archivos.*;
+import javafx.application.Platform;
 import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -84,7 +85,7 @@ public class GameController implements Initializable {
         Partida.JUGADOR_ACTUAL.marcarCasilla(posicion);
         
         actualizarTablero();
-        shiftChange();
+        checkForVictory();
     }
     
     private void actualizarTablero(){
@@ -229,7 +230,7 @@ public class GameController implements Initializable {
         alerta.setTitle("Partida Terminada");
         alerta.setHeaderText(Partida.PARTIDA.getEstado().name());
         
-        alerta.showAndWait();
+        Platform.runLater(() -> alerta.showAndWait());
         
         btnMenu.fire();
     }

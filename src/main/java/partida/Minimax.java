@@ -103,20 +103,17 @@ public class Minimax {
                 
                 }
             }
-            System.out.println("aaaaaaaaa");
-            System.out.println(heapHijo.toString());       
+            
+                 
             Tablero tableroMax = heapHijo.poll(); 
 
             Tablero tableroDad = child.getRoot().getContent();
             tableroDad.setValorMinimax(tableroMax.getValorMinimax());
-            System.out.println("tablero dad \n" + tableroDad);
-            System.out.println("tablero hijo max \n" + tableroMax);
+            
             heapPadre.offer(tableroDad);
                   
         }
         
-        System.out.println("bbbbb");
-        System.out.println(heapPadre.toString());
         Tablero chosen = heapPadre.poll();
         chosen.setIsChosen(true);
         return chosen;
