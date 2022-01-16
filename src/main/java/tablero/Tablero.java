@@ -4,6 +4,7 @@ package tablero;
 public class Tablero {
     
     private final Casilla[][] matrizCasillas;
+    private static int valorMinimax;
     
     public Tablero() {
         
@@ -18,6 +19,10 @@ public class Tablero {
         return matrizCasillas;
     }
 
+    public static void setValorMinimax(int valorMinimax) {
+        Tablero.valorMinimax = valorMinimax;
+    }
+    
     public Tablero getClone() {
         
         Tablero clone = new Tablero();

@@ -7,6 +7,8 @@ package partida;
 
 import tablero.*;
 import TDATree.Tree;
+import java.util.Comparator;
+import java.util.LinkedList;
 import jugadores.Jugador;
 
 /**
@@ -71,7 +73,7 @@ public class Minimax {
     public Tree<Tablero> getTreeMiniMax(Partida partida) {    
         
         Tablero tablero = partida.getTablero();        
-        Tree<Tablero> treeMiniMax = calculateChildren(partida, tablero, Partida.JUGADOR_ACTUAL, false);
+        Tree<Tablero> treeMiniMax = calculateChildren(partida, tablero, partida.getJugadorSiguiente(Partida.JUGADOR_ACTUAL), false);
         
         return treeMiniMax;
     }   
@@ -79,6 +81,21 @@ public class Minimax {
     @Override
     public String toString() {
         return ""+minimax;
+    }
+    
+    public Tablero getMejorOpcion(){
+        
+        Comparator<Tablero> cmpUtilidad = (Tablero t1, Tablero t2) -> t1.calcularUtilidad(partida.JUGADOR_ACTUAL.getRelleno()) - t2.calcularUtilidad(partida.JUGADOR_ACTUAL.getRelleno());
+        
+        
+        // agarro el tree, por cada get children le hago un heap y lo agrego al heap mas grande :) 
+        
+        LinkedList<Tree<Tablero>> children = this.minimax.getRoot().getChildren();
+        
+        
+        return null;
+        
+                
     }
     
 
