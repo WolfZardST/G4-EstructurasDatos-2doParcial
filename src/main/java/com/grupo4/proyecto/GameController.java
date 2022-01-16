@@ -102,7 +102,7 @@ public class GameController implements Initializable {
                 Casilla n=partida.getMatrizCasillas()[x][y];
                 StackPane pane=crearCasilla(n);
                 
-                pane.setOnMouseClicked(e->rellenar(pane));
+                pane.setOnMouseClicked(e->rellenar(pane, n));
                 
                 gridpane.add(pane,x,y);
             }
@@ -135,13 +135,17 @@ public class GameController implements Initializable {
         return pane;
     }
     
-    private void rellenar(StackPane pane){
+    private void rellenar(StackPane pane, Casilla n){
         //Solo permite clickear si el jugador actual es humano.
         if(Partida.PARTIDA.getJUGADOR_ACTUAL() instanceof Humano){
+            //Actualiza el visual
             Label simbolo=new Label(Partida.PARTIDA.getJUGADOR_ACTUAL().getRelleno().name());
             simbolo.setStyle("-fx-font-size: 50");
             pane.getChildren().add(simbolo);
             pane.setMouseTransparent(true);
+            //Actualiza el tablero
+            n.marcar(Partida.PARTIDA.getJUGADOR_ACTUAL().getRelleno());
+            
             shiftChange();
         }
     }
