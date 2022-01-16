@@ -18,11 +18,20 @@ import javafx.scene.layout.Pane;
 import javafx.scene.Parent;
 
 import archivos.*;
+import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import jugadores.Humano;
 import jugadores.Jugador;
 import partida.Partida;
 import sonidos.Sonidos;
+import tablero.Casilla;
 import tablero.Posicion;
+import tablero.Relleno;
 import tablero.Tablero;
 
 public class GameController implements Initializable { 
@@ -50,6 +59,8 @@ public class GameController implements Initializable {
     private Pane treePane;
     @FXML
     private Button muteUnmuteButton;
+    @FXML
+    private HBox boxT;
     
     //PABLOSKI
 
@@ -65,15 +76,80 @@ public class GameController implements Initializable {
             break;
             case 2: VBoxP2.setStyle(BGStyleP2);
         }
-//        Tablero tablero = Partida.PARTIDA.getTablero();
-//        Jugador jugadorUno = Partida.PARTIDA.getJugadorUno();
-//        Jugador jugadorDos = Partida.PARTIDA.getJugadorDos();
-//        jugadorUno.marcarCasilla(tablero, new Posicion(0,0));
-//        jugadorDos.marcarCasilla(tablero, new Posicion(1,0));
-//        jugadorUno.marcarCasilla(tablero, new Posicion(1,1));
-//        jugadorDos.marcarCasilla(tablero, new Posicion(2,0));
-//        jugadorUno.marcarCasilla(tablero, new Posicion(2,2));
-//        jugadorDos.marcarCasilla(tablero, new Posicion(0,2));
+
+        /*
+        Tablero tablero = Partida.PARTIDA.getTablero();
+        Jugador jugadorUno = Partida.PARTIDA.getJugadorUno();
+        Jugador jugadorDos = Partida.PARTIDA.getJugadorDos();
+        jugadorUno.marcarCasilla(tablero, new Posicion(0,0));
+        jugadorDos.marcarCasilla(tablero, new Posicion(1,0));
+        jugadorUno.marcarCasilla(tablero, new Posicion(1,1));
+        jugadorDos.marcarCasilla(tablero, new Posicion(2,0));
+        jugadorUno.marcarCasilla(tablero, new Posicion(2,2));
+        jugadorDos.marcarCasilla(tablero, new Posicion(0,2));
+        */
+        generarTablero();
+    }
+    
+    private void generarTablero(){
+        GridPane gridpane=new GridPane();
+        
+        Tablero partida=Partida.PARTIDA.getTablero();
+        
+        for(int x=0;x<3;x++){
+            for(int y=0;y<3;y++){
+                int posx=x;
+                int posy=y;
+                Casilla n=partida.getMatrizCasillas()[x][y];
+                StackPane pane=crearCasilla(n);
+                
+                pane.setOnMouseClicked(e->rellenar(pane, n));
+                
+                gridpane.add(pane,x,y);
+            }
+        }
+        
+        boxT.getChildren().add(gridpane);
+        boxT.setAlignment(Pos.CENTER);
+    
+    }
+    
+    private StackPane crearCasilla(Casilla n){
+        StackPane pane=new StackPane();
+        int width=180;
+        int height=180;
+        
+        pane.setPrefSize(width, height);
+        pane.setStyle("-fx-border-color: black; -fx-border-style: solid; -fx-border-width: 1px;");
+        pane.setCursor(Cursor.HAND);
+        
+        if(n.getRelleno()!=Relleno.EMPTY){
+            Label simbolo=new Label(n.getRelleno().name());
+            simbolo.setStyle("-fx-font-size: 50");
+            pane.getChildren().add(simbolo);
+        }else{
+            Label simbolo=new Label();
+            simbolo.setStyle("-fx-font-size: 50");
+            pane.getChildren().add(simbolo);
+        }
+       
+        return pane;
+    }
+    
+    private void rellenar(StackPane pane, Casilla n){
+        //Solo permite clickear si el jugador actual es humano.
+        if(Partida.PARTIDA.getJUGADOR_ACTUAL() instanceof Humano){
+            //Actualiza el visual
+            Label simbolo=new Label(Partida.PARTIDA.getJUGADOR_ACTUAL().getRelleno().name());
+            simbolo.setStyle("-fx-font-size: 50");
+            pane.getChildren().add(simbolo);
+            pane.setMouseTransparent(true);
+            //Actualiza el tablero
+            n.marcar(Partida.PARTIDA.getJUGADOR_ACTUAL().getRelleno());
+            
+            shiftChange();
+        }
+
     }
     
     private int getNumberOfCurrentPlayer() {
