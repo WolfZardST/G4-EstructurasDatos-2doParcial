@@ -88,6 +88,7 @@ public class Minimax {
         Heap<Tablero> heapPadre = new Heap(cmpTableros, true);
          
         Tree<Tablero> tableroMiniMax = getTreeMiniMax(partida);
+        Tablero tableroMax = new Tablero();
         LinkedList<Tree<Tablero>> children = tableroMiniMax.getRoot().getChildren();
         
         if (children.size() == 1){
@@ -118,16 +119,16 @@ public class Minimax {
                 tableroChild.setValorMinimax(utilidad);     
                 }
             }
-                       
-            Tablero tableroMax = heapHijo.poll(); 
+                                   
+            tableroMax = heapHijo.poll(); 
             
             Tablero tableroDad = child.getRoot().getContent();
             
             if(!tresEnRaya) {
                 tableroDad.setValorMinimax(tableroMax.getValorMinimax());
                 heapPadre.offer(tableroDad);
-            }    
-            
+            } 
+
             if(tableroDad.buscarTresEnRaya(Partida.JUGADOR_ACTUAL)) {
                 tableroDad.setIsChosen(true);
                 return tableroDad;
@@ -135,6 +136,7 @@ public class Minimax {
                 
         }
         
+        if (heapPadre.isEmpty()) return tableroMax;       
         Tablero chosen = heapPadre.poll();
         chosen.setIsChosen(true);
         return chosen;
