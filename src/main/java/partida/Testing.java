@@ -23,6 +23,9 @@ public abstract class Testing {
         
         jugadorUno.marcarCasilla(new Posicion(0,0));
         jugadorDos.marcarCasilla(new Posicion(1,0));
+        
+        System.out.println(partida.getEstado().name());
+        
         jugadorUno.marcarCasilla(new Posicion(1,1));
         jugadorDos.marcarCasilla(new Posicion(2,0));
         jugadorUno.marcarCasilla(new Posicion(2,2));

@@ -1,7 +1,6 @@
 
 package partida;
 
-import TDATree.Tree;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,7 +13,6 @@ public class Partida {
     private Jugador jugadorUno;
     private Jugador jugadorDos;
     private Estado estado;
-    
     
     public static Partida PARTIDA;
     public static int VICTORIAS_PARA_GANAR = 1;
@@ -78,8 +76,7 @@ public class Partida {
         Partida.minimax = minimax;
     }
     
-    
-    public void buscarTresEnRaya(Jugador jugador) {
+    public boolean buscarTresEnRaya(Jugador jugador) {
         
         Relleno relleno = jugador.getRelleno();
         
@@ -103,8 +100,9 @@ public class Partida {
                 break;
                 case X: setEstado(Estado.GANA_X);
             }
-            
+            return true;
         }
+        return false;
     }
     
     private void buscarTresEnRayaVertical(List<Casilla> victoriosas, Relleno relleno) {
@@ -117,13 +115,10 @@ public class Partida {
             for(int fila = 0; fila < 3; fila ++) {
                 
                 Casilla casilla = casillas[fila][columna];
-                
-                if(casilla.getRelleno() != relleno){
-                    victoriosas.clear();
-                    break;
-                }
-                victoriosas.add(casilla);
+                if(casilla.getRelleno() == relleno) victoriosas.add(casilla);
             }
+            
+            if(victoriosas.size() < 3) victoriosas.clear();
         }
         
     }
@@ -138,13 +133,10 @@ public class Partida {
             for(int columna = 0; columna < 3; columna ++) {
                 
                 Casilla casilla = casillas[fila][columna];
-                
-                if(casilla.getRelleno() != relleno){
-                    victoriosas.clear();
-                    break;
-                }
-                victoriosas.add(casilla);
+                if(casilla.getRelleno() == relleno) victoriosas.add(casilla);
             }
+            
+            if(victoriosas.size() < 3) victoriosas.clear();
         }
         
     }
@@ -154,29 +146,20 @@ public class Partida {
         Casilla[][] casillas = tablero.getMatrizCasillas();
         
         for(int fila = 0, columna = 0; fila < 3; fila ++, columna++) {
-            if(!victoriosas.isEmpty()) break;
             
             Casilla casilla = casillas[fila][columna];
-                
-            if(casilla.getRelleno() != relleno){
-                victoriosas.clear();
-                break;
-            }
-            victoriosas.add(casilla);
+            if(casilla.getRelleno() == relleno) victoriosas.add(casilla);
         }
+        
+        if(victoriosas.size() < 3) victoriosas.clear();
         
         for(int fila = 2, columna = 0; fila >= 0; fila --, columna++) {
-            if(!victoriosas.isEmpty()) break;
             
             Casilla casilla = casillas[fila][columna];
-                
-            if(casilla.getRelleno() != relleno){
-                victoriosas.clear();
-                break;
-            }
-            victoriosas.add(casilla);
+            if(casilla.getRelleno() == relleno) victoriosas.add(casilla);
         }
         
+        if(victoriosas.size() < 3) victoriosas.clear();
     }
     
 }

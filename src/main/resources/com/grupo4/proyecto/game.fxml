@@ -31,7 +31,7 @@
       </VBox>
       <Pane prefHeight="150.0" prefWidth="800.0">
          <children>
-            <Button id="menuButton" layoutX="51.0" layoutY="38.0" mnemonicParsing="false" onAction="#menu">
+            <Button id="menuButton" fx:id="btnMenu" layoutX="51.0" layoutY="38.0" mnemonicParsing="false" onAction="#menu">
                <font>
                   <Font size="16.0" />
                </font>
