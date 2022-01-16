@@ -27,7 +27,7 @@ public interface Sonidos {
 
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.seconds(5),
-                        new KeyValue(musicPlayer.volumeProperty(), 0.15)));
+                        new KeyValue(musicPlayer.volumeProperty(), 0.07)));
         timeline.play();
         
     }
@@ -75,7 +75,7 @@ public interface Sonidos {
     }
     
     public static void playSquareSound() {
-        playSound("square.wav", 0.15);
+        playSound("square.mp3", 0.75);
     }
     
     public static void playEndgameSound() {

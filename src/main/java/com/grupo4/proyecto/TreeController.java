@@ -283,7 +283,7 @@ public class TreeController implements Initializable {
                 
                 double finalX = contador * (ANCHO_TABLERO + espacioTableros) + ANCHO_TABLERO/2;
                 
-                if(arbolesTableros.size() == 1) finalX = padreX;
+                if(arbolesTableros.size() == 1) finalX = ANCHO_TOTAL/2;
                 
                 double finalY = (ANCHO_TABLERO + ESPACIADO_VERTICAL) * nivel;
                 

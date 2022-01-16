@@ -21,12 +21,12 @@ public abstract class Testing {
         partida.setJugadorUno(jugadorUno);
         partida.setJugadorDos(jugadorDos);
         
-        jugadorUno.marcarCasilla(tablero, new Posicion(0,0));
-        jugadorDos.marcarCasilla(tablero, new Posicion(1,0));
-        jugadorUno.marcarCasilla(tablero, new Posicion(1,1));
-        jugadorDos.marcarCasilla(tablero, new Posicion(2,0));
-        jugadorUno.marcarCasilla(tablero, new Posicion(2,2));
-        jugadorDos.marcarCasilla(tablero, new Posicion(0,2));
+        jugadorUno.marcarCasilla(new Posicion(0,0));
+        jugadorDos.marcarCasilla(new Posicion(1,0));
+        jugadorUno.marcarCasilla(new Posicion(1,1));
+        jugadorDos.marcarCasilla(new Posicion(2,0));
+        jugadorUno.marcarCasilla(new Posicion(2,2));
+        jugadorDos.marcarCasilla(new Posicion(0,2));
         
         System.out.println(tablero);
         

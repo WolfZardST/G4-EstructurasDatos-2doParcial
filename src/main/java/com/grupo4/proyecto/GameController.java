@@ -18,21 +18,15 @@ import javafx.scene.layout.Pane;
 import javafx.scene.Parent;
 
 import archivos.*;
-import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import jugadores.Humano;
-import jugadores.Jugador;
 import partida.Partida;
 import sonidos.Sonidos;
-import tablero.Casilla;
-import tablero.Posicion;
-import tablero.Relleno;
-import tablero.Tablero;
+import tablero.*;
 
 public class GameController implements Initializable { 
 
@@ -53,17 +47,17 @@ public class GameController implements Initializable {
     
     private final String BGStyleP1 = "-fx-background-color: linear-gradient(from 100% 50% to 0% 50%, #86BCF5, white);";
     private final String BGStyleP2 = "-fx-background-color: linear-gradient(from 0% 50% to 100% 50%, #FF4F40, white);";
+    
+    private final String fillStyle = "-fx-graphic-text-gap: 0px; -fx-font-weight: bold; -fx-font-size: 118px;";
+    private final String squareStyle = "-fx-border-color: black; -fx-border-style: solid; -fx-border-width: 1px;";
+    
     @FXML
-    private Pane boardPane;
+    private HBox boardPane;
     @FXML
     private Pane treePane;
     @FXML
     private Button muteUnmuteButton;
-    @FXML
-    private HBox boxT;
     
-    //PABLOSKI
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
@@ -81,41 +75,43 @@ public class GameController implements Initializable {
     }
     
     private void generarTablero(){
-        GridPane gridpane=new GridPane();
         
+        GridPane gridpane=new GridPane();
         Tablero partida=Partida.PARTIDA.getTablero();
         
         for(int x=0;x<3;x++){
             
             for(int y=0;y<3;y++){
                 
-                Casilla n=partida.getMatrizCasillas()[x][y];
-                StackPane pane=crearCasilla(n);
+                Casilla n = partida.getMatrizCasillas()[x][y];
+                StackPane pane = crearCasilla(n);
+                Posicion pos = new Posicion(x, y);
                 
-                pane.setOnMouseClicked(e->rellenar(pane, n));
+                pane.setOnMouseClicked(e->rellenarCasilla(pane, pos));
+                
+                pane.setOnMouseEntered(e->oscurecerCasilla(pane));
+                pane.setOnMouseExited(e->esclarecerCasilla(pane));
+                
+                pane.setOnMouseReleased(e->oscurecerCasilla(pane));
+                pane.setOnMousePressed(e->esclarecerCasilla(pane));
+                
                 gridpane.add(pane, y, x);
             }
         }
         
-        boxT.getChildren().add(gridpane);
-        boxT.setAlignment(Pos.CENTER);
+        boardPane.getChildren().add(gridpane);
     }
     
     private StackPane crearCasilla(Casilla n){
-        StackPane pane=new StackPane();
-        int width=180;
-        int height=180;
         
-        pane.setPrefSize(width, height);
-        pane.setStyle("-fx-border-color: black; -fx-border-style: solid; -fx-border-width: 1px;");
+        StackPane pane=new StackPane();
+        pane.setPrefSize(180.0, 180.0);
+        
+        pane.setStyle(squareStyle);
         pane.setCursor(Cursor.HAND);
         
         if(n.getRelleno()!=Relleno.EMPTY){
             Label simbolo=new Label(n.getRelleno().name());
-            simbolo.setStyle("-fx-font-size: 50");
-            pane.getChildren().add(simbolo);
-        }else{
-            Label simbolo=new Label();
             simbolo.setStyle("-fx-font-size: 50");
             pane.getChildren().add(simbolo);
         }
@@ -123,16 +119,39 @@ public class GameController implements Initializable {
         return pane;
     }
     
-    private void rellenar(StackPane pane, Casilla n){
+    private void oscurecerCasilla(StackPane pane) {
+        
+        pane.setStyle(squareStyle + "-fx-background-color: lightgray");
+    }
+    
+    private void esclarecerCasilla(StackPane pane) {
+        
+        pane.setStyle(squareStyle);
+    }
+    
+    private void rellenarCasilla(StackPane pane, Posicion posicion){
+        
         //Solo permite clickear si el jugador actual es humano.
         if(Partida.JUGADOR_ACTUAL instanceof Humano){
             //Actualiza el visual
-            Label simbolo=new Label(Partida.JUGADOR_ACTUAL.getRelleno().name());
-            simbolo.setStyle("-fx-font-size: 50");
+            
+            Relleno relleno = Partida.JUGADOR_ACTUAL.getRelleno();
+            
+            Label simbolo = new Label(relleno.name());
+            
+            switch(getNumberOfCurrentPlayer()) {
+                case 1: simbolo.setStyle(fillStyle+"-fx-text-fill: #539eee");
+                break;
+                case 2: simbolo.setStyle(fillStyle+"-fx-text-fill: #ff2b18");
+            }
+            
             pane.getChildren().add(simbolo);
             pane.setMouseTransparent(true);
+            
+            Sonidos.playSquareSound();
+            
             //Actualiza el tablero
-            n.marcar(Partida.JUGADOR_ACTUAL.getRelleno());
+            Partida.JUGADOR_ACTUAL.marcarCasilla(posicion);
             
             shiftChange();
         }
@@ -223,6 +242,8 @@ public class GameController implements Initializable {
     }
     
     private void addVictoryToCurrentPlayer() {
+        
+        Sonidos.playWinSound();
         
         switch(getNumberOfCurrentPlayer()){
             case 1: winsVBoxP1.getChildren().add(newTrophyPane());

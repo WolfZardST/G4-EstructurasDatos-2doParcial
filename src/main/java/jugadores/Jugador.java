@@ -13,9 +13,9 @@ public abstract class Jugador {
         this.relleno = relleno;
     }
     
-    public void marcarCasilla(Tablero tablero, Posicion posicion){
-        tablero.getCasilla(posicion).marcar(relleno);
-        Partida.TABLEROS.add(tablero.getClone());
+    public void marcarCasilla(Posicion posicion){
+        Partida.PARTIDA.getTablero().getCasilla(posicion).marcar(relleno);
+        Partida.TABLEROS.add(Partida.PARTIDA.getTablero().getClone());
     }
     
     public void sumarVictoria() {
