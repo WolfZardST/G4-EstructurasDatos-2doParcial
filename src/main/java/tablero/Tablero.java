@@ -1,6 +1,10 @@
 
 package tablero;
 
+import java.util.LinkedList;
+import java.util.List;
+import jugadores.Jugador;
+
 public class Tablero {
     
     private final Casilla[][] matrizCasillas;
@@ -221,6 +225,79 @@ public class Tablero {
         }
         
         return disponibilidad;
+    }
+    
+    public boolean buscarTresEnRaya(Jugador jugador) {
+        
+        Relleno relleno = jugador.getRelleno();
+        
+        List<Casilla> victoriosas = new LinkedList<>();
+        
+        this.buscarTresEnRayaHorizontal(victoriosas, relleno);
+        
+        this.buscarTresEnRayaVertical(victoriosas, relleno);
+        
+        this.buscarTresEnRayaDiagonal(victoriosas, relleno);
+        
+        // Registrando Victoria
+        
+        if(!victoriosas.isEmpty()){
+            
+            victoriosas.forEach(casilla -> casilla.marcarComoVictoriosa());
+            return true;
+        }
+        return false;
+    }
+    
+    private void buscarTresEnRayaVertical(List<Casilla> victoriosas, Relleno relleno) {
+        
+        for(int columna = 0; columna < 3; columna ++) {
+            if(!victoriosas.isEmpty()) break;
+                     
+            for(int fila = 0; fila < 3; fila ++) {
+                
+                Casilla casilla = matrizCasillas[fila][columna];
+                if(casilla.getRelleno() == relleno) victoriosas.add(casilla);
+            }
+            
+            if(victoriosas.size() < 3) victoriosas.clear();
+        }
+        
+    }
+    
+    private void buscarTresEnRayaHorizontal(List<Casilla> victoriosas, Relleno relleno) {
+        
+        for(int fila = 0; fila < 3; fila ++) {
+            if(!victoriosas.isEmpty()) break;
+                     
+            for(int columna = 0; columna < 3; columna ++) {
+                
+                Casilla casilla = matrizCasillas[fila][columna];
+                if(casilla.getRelleno() == relleno) victoriosas.add(casilla);
+            }
+            
+            if(victoriosas.size() < 3) victoriosas.clear();
+        }
+        
+    }
+   
+    private void buscarTresEnRayaDiagonal(List<Casilla> victoriosas, Relleno relleno) {
+        
+        for(int fila = 0, columna = 0; fila < 3; fila ++, columna++) {
+            
+            Casilla casilla = matrizCasillas[fila][columna];
+            if(casilla.getRelleno() == relleno) victoriosas.add(casilla);
+        }
+        
+        if(victoriosas.size() < 3) victoriosas.clear();
+        
+        for(int fila = 2, columna = 0; fila >= 0; fila --, columna++) {
+            
+            Casilla casilla = matrizCasillas[fila][columna];
+            if(casilla.getRelleno() == relleno) victoriosas.add(casilla);
+        }
+        
+        if(victoriosas.size() < 3) victoriosas.clear();
     }
     
 }

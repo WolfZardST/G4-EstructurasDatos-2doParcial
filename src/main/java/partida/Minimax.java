@@ -100,14 +100,15 @@ public class Minimax {
                 heapHijo.offer(tableroChild);   
                 int utilidad = tableroChild.calcularUtilidad(Partida.JUGADOR_ACTUAL.getRelleno());
                 tableroChild.setValorMinimax(utilidad);     
-                
                 }
             }
             
                  
             Tablero tableroMax = heapHijo.poll(); 
-
+            
             Tablero tableroDad = child.getRoot().getContent();
+            
+            if(tableroDad.buscarTresEnRaya(Partida.PARTIDA.getJugadorSiguiente(Partida.JUGADOR_ACTUAL))) tableroMax.setValorMinimax(-10);
             tableroDad.setValorMinimax(tableroMax.getValorMinimax());
             
             heapPadre.offer(tableroDad);

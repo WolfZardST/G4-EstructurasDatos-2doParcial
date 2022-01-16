@@ -196,7 +196,7 @@ public class GameController implements Initializable {
     
     private void checkForVictory() {
         
-        if(Partida.PARTIDA.buscarTresEnRaya(Partida.JUGADOR_ACTUAL)) {
+        if(Partida.PARTIDA.getTablero().buscarTresEnRaya(Partida.JUGADOR_ACTUAL)) {
             
             addVictoryToCurrentPlayer();
             actualizarTablero();
@@ -230,7 +230,9 @@ public class GameController implements Initializable {
         alerta.setTitle("Partida Terminada");
         alerta.setHeaderText(Partida.PARTIDA.getEstado().name());
         
-        Platform.runLater(() -> alerta.showAndWait());
+        if(Partida.JUGADOR_ACTUAL instanceof Ordenador) Platform.runLater(() -> alerta.showAndWait());
+        
+        else alerta.showAndWait();
         
         btnMenu.fire();
     }
@@ -323,6 +325,14 @@ public class GameController implements Initializable {
     private void addVictoryToCurrentPlayer() {
         
         Sonidos.playWinSound();
+        
+        Partida.JUGADOR_ACTUAL.sumarVictoria();
+        
+        switch(Partida.JUGADOR_ACTUAL.getRelleno()) {
+                case O: Partida.PARTIDA.setEstado(Estado.GANA_O);
+                break;
+                case X: Partida.PARTIDA.setEstado(Estado.GANA_X);
+            }
         
         switch(getNumberOfCurrentPlayer()){
             case 1: winsVBoxP1.getChildren().add(newTrophyPane());
