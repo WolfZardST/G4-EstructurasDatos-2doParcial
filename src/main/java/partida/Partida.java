@@ -36,12 +36,8 @@ public class Partida {
     public Tablero getTablero() {
         return tablero;
     }
-
-    public static Jugador getJUGADOR_ACTUAL() {
-        return JUGADOR_ACTUAL;
-    }
     
-    public Jugador getJugador_Siguiente(Jugador jugadorActual){
+    public Jugador getJugadorSiguiente(Jugador jugadorActual){
         if(jugadorActual == jugadorUno) return jugadorDos;
         else return jugadorUno;
     }

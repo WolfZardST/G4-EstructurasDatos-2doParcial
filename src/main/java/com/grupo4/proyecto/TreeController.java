@@ -213,6 +213,8 @@ public class TreeController implements Initializable {
             List<Tree<Tablero>> arbolesTableros = padre.getRoot().getChildren();
             double espacioTableros = (ANCHO_TOTAL - arbolesTableros.size() * ANCHO_TABLERO) / (arbolesTableros.size() - 1);
             
+            if(arbolesTableros.size() == 1) espacioTableros = 0;
+            
             HBox hbox = newBoardHBox( nivel, espacioTableros );
             
             int contador = 0;
@@ -226,9 +228,13 @@ public class TreeController implements Initializable {
                 hbox.getChildren().add( tableroGridPane );
                 
                 double finalX = contador * (ANCHO_TABLERO + espacioTableros) + ANCHO_TABLERO/2;
+                
+                if(arbolesTableros.size() == 1) finalX = padreX;
+                
                 double finalY = (ANCHO_TABLERO + ESPACIADO_VERTICAL) * nivel;
                 
                 Line linea = new Line(padreX, inicioY, finalX, finalY);
+                
                 backgroundPane.getChildren().add( linea );
 
                 contador ++;
@@ -261,6 +267,8 @@ public class TreeController implements Initializable {
             List<Tree<Tablero>> arbolesTableros = pila.pop().getRoot().getChildren();
             double espacioTableros = (ANCHO_TOTAL - arbolesTableros.size() * ANCHO_TABLERO) / (arbolesTableros.size() - 1);
             
+            if(arbolesTableros.size() == 1) espacioTableros = 0;
+            
             HBox hbox = newBoardHBox( nivel, espacioTableros );
             
             int contador = 0;
@@ -274,6 +282,9 @@ public class TreeController implements Initializable {
                 hbox.getChildren().add( tableroGridPane );
                 
                 double finalX = contador * (ANCHO_TABLERO + espacioTableros) + ANCHO_TABLERO/2;
+                
+                if(arbolesTableros.size() == 1) finalX = padreX;
+                
                 double finalY = (ANCHO_TABLERO + ESPACIADO_VERTICAL) * nivel;
                 
                 Line linea = new Line(inicioX, inicioY, finalX, finalY);

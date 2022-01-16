@@ -6,13 +6,12 @@
 package partida;
 
 import tablero.*;
-import TDATree.Node;
 import TDATree.Tree;
 import jugadores.Jugador;
 
 /**
  *
- * @author Danaé
+ * @author Donaé
  */
 public class Minimax {
 
@@ -30,13 +29,15 @@ public class Minimax {
     }
     
 
-    public Tree<Tablero> InitMiniMax(Partida partida) {
+    public final Tree<Tablero> InitMiniMax(Partida partida) {
         return getTreeMiniMax(partida);
     }
 
     public Tree<Tablero> calculateChildren(Partida partida, Tablero Padre, Jugador jugadorActual, boolean lastLevel) {          
         
-        Jugador jugadorSiguiente = partida.getJugador_Siguiente(jugadorActual);
+        Jugador jugadorSiguiente = partida.getJugadorSiguiente(jugadorActual);
+        Relleno rellenoSiguiente = jugadorSiguiente.getRelleno();
+        
         Tree<Tablero> treeTablero = new Tree(Padre);
 
         for (int fila = 0; fila < 3; fila++) {
@@ -47,14 +48,16 @@ public class Minimax {
                 Casilla casilla = Padre.getCasilla(posicionActual);
 
                 if (casilla.isEmpty()) {
+                    
                     Tablero clone = Padre.getClone();
-                    jugadorSiguiente.marcarCasilla(clone, posicionActual);
-                    // Obtener los children de este
+                    clone.getCasilla(posicionActual).marcar(rellenoSiguiente);
+                    
                     if (!lastLevel){
+                        
                         Tree<Tablero> subTablero = calculateChildren(partida, clone, jugadorSiguiente, true );
                         treeTablero.addChild(subTablero);
-                    }else{
-                       
+                        
+                    }else {
                        treeTablero.addChild(clone);
                     }
                
@@ -65,11 +68,12 @@ public class Minimax {
         return treeTablero;
     }
 
-    public Tree<Tablero> getTreeMiniMax(Partida partida) {      
-        Tablero tablero = partida.getTablero();        
-        Tree<Tablero> treeMiniMax = calculateChildren(partida, tablero, partida.getJUGADOR_ACTUAL(), false);
-        return treeMiniMax;
+    public Tree<Tablero> getTreeMiniMax(Partida partida) {    
         
+        Tablero tablero = partida.getTablero();        
+        Tree<Tablero> treeMiniMax = calculateChildren(partida, tablero, Partida.JUGADOR_ACTUAL, false);
+        
+        return treeMiniMax;
     }   
 
     @Override

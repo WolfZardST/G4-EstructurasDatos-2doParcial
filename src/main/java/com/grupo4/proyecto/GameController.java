@@ -77,17 +77,6 @@ public class GameController implements Initializable {
             case 2: VBoxP2.setStyle(BGStyleP2);
         }
 
-        /*
-        Tablero tablero = Partida.PARTIDA.getTablero();
-        Jugador jugadorUno = Partida.PARTIDA.getJugadorUno();
-        Jugador jugadorDos = Partida.PARTIDA.getJugadorDos();
-        jugadorUno.marcarCasilla(tablero, new Posicion(0,0));
-        jugadorDos.marcarCasilla(tablero, new Posicion(1,0));
-        jugadorUno.marcarCasilla(tablero, new Posicion(1,1));
-        jugadorDos.marcarCasilla(tablero, new Posicion(2,0));
-        jugadorUno.marcarCasilla(tablero, new Posicion(2,2));
-        jugadorDos.marcarCasilla(tablero, new Posicion(0,2));
-        */
         generarTablero();
     }
     
@@ -97,21 +86,19 @@ public class GameController implements Initializable {
         Tablero partida=Partida.PARTIDA.getTablero();
         
         for(int x=0;x<3;x++){
+            
             for(int y=0;y<3;y++){
-                int posx=x;
-                int posy=y;
+                
                 Casilla n=partida.getMatrizCasillas()[x][y];
                 StackPane pane=crearCasilla(n);
                 
                 pane.setOnMouseClicked(e->rellenar(pane, n));
-                
-                gridpane.add(pane,x,y);
+                gridpane.add(pane, y, x);
             }
         }
         
         boxT.getChildren().add(gridpane);
         boxT.setAlignment(Pos.CENTER);
-    
     }
     
     private StackPane crearCasilla(Casilla n){
@@ -138,14 +125,14 @@ public class GameController implements Initializable {
     
     private void rellenar(StackPane pane, Casilla n){
         //Solo permite clickear si el jugador actual es humano.
-        if(Partida.PARTIDA.getJUGADOR_ACTUAL() instanceof Humano){
+        if(Partida.JUGADOR_ACTUAL instanceof Humano){
             //Actualiza el visual
-            Label simbolo=new Label(Partida.PARTIDA.getJUGADOR_ACTUAL().getRelleno().name());
+            Label simbolo=new Label(Partida.JUGADOR_ACTUAL.getRelleno().name());
             simbolo.setStyle("-fx-font-size: 50");
             pane.getChildren().add(simbolo);
             pane.setMouseTransparent(true);
             //Actualiza el tablero
-            n.marcar(Partida.PARTIDA.getJUGADOR_ACTUAL().getRelleno());
+            n.marcar(Partida.JUGADOR_ACTUAL.getRelleno());
             
             shiftChange();
         }

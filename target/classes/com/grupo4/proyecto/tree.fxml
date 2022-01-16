@@ -8,14 +8,17 @@
    <children>
       <ScrollPane layoutX="3.0" layoutY="3.0" prefHeight="544.0" prefWidth="544.0">
          <content>
-            <Pane prefHeight="1050.0" prefWidth="525.0">
+            <Pane prefWidth="525.0">
                <children>
-                  <Pane fx:id="backgroundPane" layoutX="14.0" layoutY="25.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="500.0">
+                  <Pane fx:id="backgroundPane" layoutX="14.0" layoutY="25.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="500.0">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
                   </Pane>
                </children>
+               <padding>
+                  <Insets bottom="30.0" />
+               </padding>
             </Pane>
          </content>
       </ScrollPane>
