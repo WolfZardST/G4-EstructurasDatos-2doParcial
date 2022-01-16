@@ -18,4 +18,11 @@ public class Posicion {
     public int getColumna() {
         return columna;
     }
+
+    @Override
+    public String toString() {
+        return "Posicion{" + "fila=" + fila + ", columna=" + columna + '}';
+    }
+    
+    
 }

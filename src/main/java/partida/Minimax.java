@@ -107,7 +107,6 @@ public class Minimax {
             }
             
             Tablero tableroMax = heapHijo.poll(); 
-            System.out.println(tableroMax);
             Tablero tableroDad = child.getRoot().getContent();
             tableroDad.setValorMinimax(tableroMax.getValorMinimax());
             heapPadre.offer(tableroDad);
@@ -124,7 +123,7 @@ public class Minimax {
         
         Tablero bestTablero = getMejorOpcionTablero();
         Tablero currentTablero = Partida.PARTIDA.getTablero();
-        
+     
         for (int fila = 0; fila < 3; fila++) {
 
             for (int columna = 0; columna < 3; columna++) {
