@@ -88,7 +88,7 @@ public class Minimax {
         Heap<Tablero> heapPadre = new Heap(cmpTableros, true);
          
         Tree<Tablero> tableroMiniMax = getTreeMiniMax(partida);
-        Tablero tableroMax = new Tablero();
+        
         LinkedList<Tree<Tablero>> children = tableroMiniMax.getRoot().getChildren();
         
         if (children.size() == 1){
@@ -120,7 +120,7 @@ public class Minimax {
                 }
             }
                                    
-            tableroMax = heapHijo.poll(); 
+            Tablero tableroMax = heapHijo.poll(); 
             
             Tablero tableroDad = child.getRoot().getContent();
             
@@ -136,7 +136,14 @@ public class Minimax {
                 
         }
         
-        if (heapPadre.isEmpty()) return tableroMax;       
+        if (heapPadre.isEmpty()) {
+            
+            Tablero tablero = children.get(0).getRoot().getContent();
+            tablero.setIsChosen(true);
+            
+            return tablero;
+        }
+        
         Tablero chosen = heapPadre.poll();
         chosen.setIsChosen(true);
         return chosen;

@@ -155,7 +155,6 @@ public class MenuController implements Initializable {
     @FXML
     private void newGame(MouseEvent event) throws IOException {
         
-                
         Relleno rellenoJugadorUno = (fillPaneP1.getStyle().contains("O.png")) ? Relleno.O : Relleno.X;
         Relleno rellenoJugadorDos = (fillPaneP2.getStyle().contains("O.png")) ? Relleno.O : Relleno.X;
         

@@ -32,12 +32,16 @@ public interface Sonidos {
         
     }
     
-    public static void pauseBackgroundMusic() {
-        musicPlayer.pause();
+    public static boolean isBackgroundMusicMuted() {
+        return musicPlayer.muteProperty().get();
     }
     
-    public static void resumeBackgroundMusic() {
-        musicPlayer.play();
+    public static void muteBackgroundMusic() {
+        musicPlayer.muteProperty().set(true);
+    }
+    
+    public static void unmuteBackgroundMusic() {
+        musicPlayer.muteProperty().set(false);
     }
     
     private static void playSound(String archivo, double volume) {

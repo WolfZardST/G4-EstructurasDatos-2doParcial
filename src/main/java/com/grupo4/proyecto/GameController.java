@@ -68,6 +68,8 @@ public class GameController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         
         loadVictories();
+        if(Sonidos.isBackgroundMusicMuted()) 
+            muteUnmuteButton.setStyle(String.format("-fx-graphic: url('%s');", App.class.getResource("images/game/mute.png")));
         
         if(Partida.SEGUNDOS_POR_TURNO != 0) setTimers();
         
@@ -269,6 +271,7 @@ public class GameController implements Initializable {
             case 2: alerta.setHeaderText("GANA JUGADOR 2");
         }
         
+        if(timer != null) timer.stop();
         alerta.showAndWait();
         
         btnMenu.fire();
@@ -393,6 +396,7 @@ public class GameController implements Initializable {
     private void menu(ActionEvent event) throws IOException {
         
         Partida.SEGUNDOS_POR_TURNO = 0;
+        Partida.VICTORIAS_PARA_GANAR = 1;
         
         if(timer != null) timer.stop();
         if(IAThread != null && IAThread.isAlive()) IAThread.interrupt();
@@ -403,12 +407,12 @@ public class GameController implements Initializable {
     @FXML
     private void saveGame(ActionEvent event) {
         
-        if(timer != null) timer.pause();
+        if(!treePane.isVisible() && timer != null) timer.pause();
         
         File archivoPartida = SelectorArchivos.guardarArchivoPartida();
         if(archivoPartida != null) GuardadorPartida.guardarPartida(archivoPartida);
         
-        if(timer != null) timer.play();
+        if(!treePane.isVisible() && timer != null) timer.play();
     }
     
     private void performLoadTreeView(boolean minimaxTree) throws IOException {
@@ -466,12 +470,12 @@ public class GameController implements Initializable {
         if(!muteUnmuteButton.getStyle().contains("mute.png")) {
             
             muteUnmuteButton.setStyle(String.format("-fx-graphic: url('%s');", App.class.getResource("images/game/mute.png")));
-            Sonidos.pauseBackgroundMusic();
+            Sonidos.muteBackgroundMusic();
             
         } else {
             
             muteUnmuteButton.setStyle(String.format("-fx-graphic: url('%s');", App.class.getResource("images/game/sound.png")));
-            Sonidos.resumeBackgroundMusic();
+            Sonidos.unmuteBackgroundMusic();
         }
     }
 
